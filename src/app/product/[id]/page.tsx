@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import ImageGallery from './ImageGallery';
 import CartActions from './CartActions';
 import { checkIsWishlisted } from '@/app/(storefront)/wishlist/actions';
+import ProductCountdown from './ProductCountdown';
 
 export default async function ProductDetails({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
@@ -36,7 +37,11 @@ export default async function ProductDetails({ params }: { params: Promise<{ id:
     description: dbProduct.description || 'No description available for this product.',
     features: [], // Can be added to schema later
     imageUrl: dbProduct.image_url || 'https://via.placeholder.com/600',
-    images: dbProduct.images || (dbProduct.image_url ? [dbProduct.image_url] : [])
+    images: dbProduct.images || (dbProduct.image_url ? [dbProduct.image_url] : []),
+    isOffer: !!dbProduct.is_offer,
+    discountPercent: dbProduct.discount_percent || 0,
+    offerEndDate: dbProduct.offer_end_date,
+    originalPrice: dbProduct.original_price ? Number(dbProduct.original_price) : null
   };
   // Fetch wishlist status
   const isWishlisted = await checkIsWishlisted(product.id);
@@ -75,7 +80,27 @@ export default async function ProductDetails({ params }: { params: Promise<{ id:
         <div className="flex flex-col">
           <span className="font-inter text-sm text-gray-500 uppercase tracking-widest font-semibold mb-2">{product.category}</span>
           <h1 className="font-poppins text-4xl font-semibold text-black mb-4">{product.name}</h1>
-          <span className="font-inter text-2xl text-black font-medium mb-8">LKR {product.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+          {product.isOffer ? (
+            <div className="mb-8 flex flex-col gap-4 border border-purple-100 bg-purple-50/10 p-5 rounded-sm">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="font-inter text-3xl font-black text-black">LKR {product.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                {product.originalPrice && (
+                  <span className="font-inter text-base text-gray-400 line-through">LKR {product.originalPrice.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                )}
+                <span className="bg-red-600 text-white font-inter text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">{product.discountPercent}% OFF</span>
+              </div>
+              {product.originalPrice && (
+                <div className="text-sm font-bold text-green-700 font-inter bg-green-50/80 px-3 py-1.5 rounded-sm inline-self-start self-start">
+                  SAVE LKR {(product.originalPrice - product.price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                </div>
+              )}
+              <div className="border-t border-purple-100/60 pt-3">
+                <ProductCountdown offerEndDate={product.offerEndDate} />
+              </div>
+            </div>
+          ) : (
+            <span className="font-inter text-2xl text-black font-medium mb-8">LKR {product.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+          )}
           
           <p className="font-inter text-base text-gray-600 mb-8 leading-relaxed">
             {product.description}

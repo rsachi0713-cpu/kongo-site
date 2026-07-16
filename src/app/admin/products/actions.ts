@@ -18,8 +18,21 @@ export async function addProduct(formData: FormData) {
   const imageFiles = formData.getAll('imageFiles') as File[]
 
   // Parse numbers
-  const price = parseFloat(priceStr)
+  const mainPrice = parseFloat(priceStr)
   const stock = parseInt(stockStr, 10)
+
+  // Parse offer promotion details
+  const isOffer = formData.get('isOffer') === 'on'
+  const offerPriceStr = formData.get('offerPrice') as string
+  const offerEndDate = formData.get('offerEndDate') as string
+
+  const offerPrice = isOffer && offerPriceStr ? parseFloat(offerPriceStr) : null
+  const finalPrice = isOffer && offerPrice !== null ? offerPrice : mainPrice
+  const originalPrice = isOffer ? mainPrice : null
+  const discountPercent = isOffer && originalPrice && finalPrice && originalPrice > finalPrice
+    ? Math.round(((originalPrice - finalPrice) / originalPrice) * 100)
+    : 0
+  const finalEndDate = isOffer && offerEndDate ? new Date(offerEndDate).toISOString() : null
 
   const uploadedUrls: string[] = []
 
@@ -52,12 +65,16 @@ export async function addProduct(formData: FormData) {
   const { error } = await supabase.from('products').insert({
     name,
     category,
-    price,
+    price: finalPrice,
     stock,
     status,
     image_url: finalImageUrl,
     images: images,
     description: description || null,
+    is_offer: isOffer,
+    discount_percent: discountPercent,
+    offer_end_date: finalEndDate,
+    original_price: originalPrice
   })
 
   if (error) {
@@ -140,8 +157,21 @@ export async function editProduct(formData: FormData) {
     return redirect('/admin/products')
   }
 
-  const price = parseFloat(priceStr)
+  const mainPrice = parseFloat(priceStr)
   const stock = parseInt(stockStr, 10)
+
+  // Parse offer promotion details
+  const isOffer = formData.get('isOffer') === 'on'
+  const offerPriceStr = formData.get('offerPrice') as string
+  const offerEndDate = formData.get('offerEndDate') as string
+
+  const offerPrice = isOffer && offerPriceStr ? parseFloat(offerPriceStr) : null
+  const finalPrice = isOffer && offerPrice !== null ? offerPrice : mainPrice
+  const originalPrice = isOffer ? mainPrice : null
+  const discountPercent = isOffer && originalPrice && finalPrice && originalPrice > finalPrice
+    ? Math.round(((originalPrice - finalPrice) / originalPrice) * 100)
+    : 0
+  const finalEndDate = isOffer && offerEndDate ? new Date(offerEndDate).toISOString() : null
 
   // 1. Fetch current database record to find which images were deleted
   const { data: dbProduct } = await supabase
@@ -196,12 +226,16 @@ export async function editProduct(formData: FormData) {
     .update({
       name,
       category,
-      price,
+      price: finalPrice,
       stock,
       status,
       image_url: finalImageUrl,
       images: finalImages,
       description: description || null,
+      is_offer: isOffer,
+      discount_percent: discountPercent,
+      offer_end_date: finalEndDate,
+      original_price: originalPrice
     })
     .eq('id', id)
 

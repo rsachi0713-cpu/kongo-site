@@ -13,6 +13,7 @@ interface CartItem {
     price: number;
     category: string;
     image_url: string;
+    original_price?: number | null;
   } | null;
 }
 
@@ -129,7 +130,12 @@ export default function CartItemsList({ initialItems }: { initialItems: any[] })
 
                 <div className="col-span-1 md:col-span-2 text-left md:text-center font-inter text-sm text-gray-600">
                   <span className="md:hidden font-semibold mr-2">Price:</span>
-                  LKR {price.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                  {item.product.original_price && Number(item.product.original_price) > price && (
+                    <span className="text-[11px] text-gray-400 line-through mr-1.5 block md:inline">
+                      LKR {Number(item.product.original_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                    </span>
+                  )}
+                  <span className="font-semibold text-black">LKR {price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
                 </div>
 
                 <div className="col-span-1 md:col-span-2 flex justify-start md:justify-center">

@@ -56,6 +56,43 @@ export default async function NewProductPage({ searchParams }: { searchParams: P
                 </select>
               </div>
             </div>
+
+            {/* Offer Item Toggles */}
+            <div className="relative pt-2">
+              <input 
+                type="checkbox" 
+                name="isOffer" 
+                id="isOffer" 
+                className="peer absolute left-0 top-1.5 w-4 h-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500 cursor-pointer" 
+              />
+              <label htmlFor="isOffer" className="block pl-6 pt-0.5 font-inter text-sm font-semibold text-black select-none cursor-pointer">
+                Mark as Offer Item
+              </label>
+
+              <div className="hidden peer-checked:grid grid-cols-1 md:grid-cols-2 gap-4 border border-purple-100 bg-purple-50/20 p-4 rounded transition-all mt-4">
+                <div>
+                  <label htmlFor="offerPrice" className="block font-inter text-xs font-semibold text-gray-700 mb-1">Offer Price (LKR) - Actual Sale Price</label>
+                  <input 
+                    type="number" 
+                    id="offerPrice" 
+                    name="offerPrice" 
+                    step="0.01"
+                    min="0"
+                    placeholder="e.g. 10000" 
+                    className="w-full bg-white border border-gray-300 py-2 px-3 font-inter text-sm text-black rounded focus:outline-none focus:border-black" 
+                  />
+                </div>
+                <div>
+                  <label htmlFor="offerEndDate" className="block font-inter text-xs font-semibold text-gray-700 mb-1">Offer End Date & Time</label>
+                  <input 
+                    type="datetime-local" 
+                    id="offerEndDate" 
+                    name="offerEndDate" 
+                    className="w-full bg-white border border-gray-300 py-2 px-3 font-inter text-sm text-black rounded focus:outline-none focus:border-black" 
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

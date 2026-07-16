@@ -9,15 +9,20 @@ export default function Header({ user }: { user?: any }) {
 
   useEffect(() => {
     const fetchCartCount = async () => {
-      const supabase = createClient();
-      const { data: { user: currentUser } } = await supabase.auth.getUser();
-      if (currentUser) {
-        const { count } = await supabase
-          .from('cart_items')
-          .select('id', { count: 'exact', head: true })
-          .eq('user_id', currentUser.id);
-        setCartCount(count || 0);
-      } else {
+      try {
+        const supabase = createClient();
+        const { data: { user: currentUser } } = await supabase.auth.getUser();
+        if (currentUser) {
+          const { count } = await supabase
+            .from('cart_items')
+            .select('id', { count: 'exact', head: true })
+            .eq('user_id', currentUser.id);
+          setCartCount(count || 0);
+        } else {
+          setCartCount(0);
+        }
+      } catch (err) {
+        console.warn("Failed to fetch cart count due to connection/network limits:", err);
         setCartCount(0);
       }
     };
@@ -122,39 +127,65 @@ export default function Header({ user }: { user?: any }) {
         <div className="max-w-[1440px] mx-auto px-5 md:px-16 flex items-center justify-between h-12">
           
           {/* All Categories Dropdown button */}
-          <Link 
-            href="/category" 
-            className="bg-[#310a62] hover:bg-[#200542] text-white px-5 h-full flex items-center gap-2 font-inter text-xs uppercase tracking-widest font-black transition-colors"
-          >
-            <span className="material-symbols-outlined text-[18px]">menu</span>
-            All Categories
-          </Link>
+          <div className="relative group h-full">
+            <button 
+              className="bg-[#310a62] hover:bg-[#200542] text-white px-5 h-full flex items-center gap-2 font-inter text-xs uppercase tracking-widest font-black transition-colors"
+            >
+              <span className="material-symbols-outlined text-[18px]">menu</span>
+              All Categories
+            </button>
+            
+            {/* Category Dropdown List on Hover */}
+            <div className="absolute top-12 left-0 w-56 bg-white border border-gray-200 shadow-2xl rounded-b py-2 hidden group-hover:block z-50 animate-fade-in text-black font-semibold font-inter">
+              <Link href="/shop?category=Electronics" className="flex items-center gap-2.5 px-4 py-2.5 text-xs uppercase hover:bg-gray-100 hover:text-purple-800 transition-colors">
+                <span className="material-symbols-outlined text-[18px] text-gray-500">devices</span>
+                Electronics
+              </Link>
+              <Link href="/shop?category=Fashion" className="flex items-center gap-2.5 px-4 py-2.5 text-xs uppercase hover:bg-gray-100 hover:text-purple-800 transition-colors">
+                <span className="material-symbols-outlined text-[18px] text-gray-500">checkroom</span>
+                Fashion
+              </Link>
+              <Link href="/shop?category=Beauty" className="flex items-center gap-2.5 px-4 py-2.5 text-xs uppercase hover:bg-gray-100 hover:text-purple-800 transition-colors">
+                <span className="material-symbols-outlined text-[18px] text-gray-500">spa</span>
+                Beauty
+              </Link>
+              <Link href="/shop?category=Home%20%26%20Living" className="flex items-center gap-2.5 px-4 py-2.5 text-xs uppercase hover:bg-gray-100 hover:text-purple-800 transition-colors">
+                <span className="material-symbols-outlined text-[18px] text-gray-500">home</span>
+                Home & Living
+              </Link>
+              <Link href="/shop?category=Accessories" className="flex items-center gap-2.5 px-4 py-2.5 text-xs uppercase hover:bg-gray-100 hover:text-purple-800 transition-colors">
+                <span className="material-symbols-outlined text-[18px] text-gray-500">shopping_bag</span>
+                Accessories
+              </Link>
+              <Link href="/shop?category=Watches" className="flex items-center gap-2.5 px-4 py-2.5 text-xs uppercase hover:bg-gray-100 hover:text-purple-800 transition-colors">
+                <span className="material-symbols-outlined text-[18px] text-gray-500">watch</span>
+                Watches
+              </Link>
+              <Link href="/shop?category=Furniture" className="flex items-center gap-2.5 px-4 py-2.5 text-xs uppercase hover:bg-gray-100 hover:text-purple-800 transition-colors">
+                <span className="material-symbols-outlined text-[18px] text-gray-500">chair</span>
+                Furniture
+              </Link>
+            </div>
+          </div>
 
           {/* Quick Category links */}
           <nav className="hidden md:flex items-center gap-6 font-inter text-xs uppercase tracking-widest font-extrabold text-purple-100">
-            <Link href="/shop?category=Clothing" className="hover:text-white transition-colors">Clothing</Link>
-            <Link href="/shop?category=Tech" className="hover:text-white transition-colors">Tech Products</Link>
-            <Link href="/shop?category=Home" className="hover:text-white transition-colors">Home Items</Link>
-            <Link href="/wishlist" className="hover:text-white transition-colors flex items-center gap-1">
-              <span className="material-symbols-outlined text-sm">favorite</span>
-              Wishlist
+            <Link href="/" className="hover:text-white transition-colors flex items-center gap-1">
+              <span className="material-symbols-outlined text-sm">home</span>
+              Home
             </Link>
-            <Link href="/shop" className="text-yellow-400 hover:text-yellow-300 transition-colors flex items-center gap-1 font-black">
+            <Link href="/shop?offers=only" className="text-yellow-400 hover:text-yellow-300 transition-colors flex items-center gap-1 font-black">
               <span className="material-symbols-outlined text-sm">local_fire_department</span>
-              Today's Offer
+              Today's Offers
             </Link>
           </nav>
 
-          {/* Customer Service info */}
+          {/* Order History link */}
           <div className="flex items-center gap-6 font-inter text-xs font-bold text-purple-200">
             <Link href="/profile" className="hover:text-white flex items-center gap-1.5 transition-colors">
-              <span className="material-symbols-outlined text-[16px]">local_shipping</span>
-              Track Order
+              <span className="material-symbols-outlined text-[18px]">history</span>
+              Order History
             </Link>
-            <a href="tel:+94753951531" className="hover:text-white flex items-center gap-1.5 transition-colors">
-              <span className="material-symbols-outlined text-[16px]">call</span>
-              +94 75 395 1531
-            </a>
           </div>
 
         </div>

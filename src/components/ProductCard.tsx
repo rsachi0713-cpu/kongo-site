@@ -6,9 +6,10 @@ interface ProductCardProps {
   name: string;
   price: number;
   imageUrl: string;
+  originalPrice?: number | null;
 }
 
-export default function ProductCard({ id, category, name, price, imageUrl }: ProductCardProps) {
+export default function ProductCard({ id, category, name, price, imageUrl, originalPrice }: ProductCardProps) {
   return (
     <Link href={`/product/${id}`} className="group block cursor-pointer">
       <div className="aspect-square bg-white mb-6 overflow-hidden flex items-center justify-center relative rounded-sm border border-gray-100">
@@ -25,7 +26,12 @@ export default function ProductCard({ id, category, name, price, imageUrl }: Pro
         <span className="font-inter text-xs text-gray-500 uppercase tracking-widest font-semibold">{category}</span>
         <div className="flex justify-between items-start gap-4">
           <h3 className="font-inter text-base font-bold text-black min-w-0 flex-1">{name}</h3>
-          <span className="font-inter text-base font-bold text-black whitespace-nowrap">LKR {price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+          <div className="flex flex-col items-end whitespace-nowrap">
+            {originalPrice && Number(originalPrice) > price && (
+              <span className="font-inter text-[11px] text-gray-400 line-through">LKR {Number(originalPrice).toLocaleString()}</span>
+            )}
+            <span className="font-inter text-base font-bold text-black">LKR {price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+          </div>
         </div>
       </div>
     </Link>

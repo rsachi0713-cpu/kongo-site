@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import ProductCard from '@/components/ProductCard';
+import HotDealCard from '@/components/HotDealCard';
 import { createClient } from '@/utils/supabase/server';
 import SortSelect from './SortSelect';
 
@@ -12,6 +13,7 @@ export default async function Shop({
     minPrice?: string; 
     maxPrice?: string; 
     sortBy?: string;
+    offers?: string;
   }> 
 }) {
   const params = await searchParams;
@@ -20,9 +22,14 @@ export default async function Shop({
   const minPriceStr = params?.minPrice || '';
   const maxPriceStr = params?.maxPrice || '';
   const sortBy = params?.sortBy || 'newest';
+  const offersOnly = params?.offers === 'only';
 
   const supabase = await createClient();
-  let query = supabase.from('products').select('*').eq('status', 'Active');
+  let query = supabase.from('products').select('*').in('status', ['Active', 'Low Stock']);
+  
+  if (offersOnly) {
+    query = query.eq('is_offer', true);
+  }
   
   // 1. Filter by Search Query
   if (searchQuery) {
@@ -68,6 +75,7 @@ export default async function Shop({
     if (minPriceStr) nextParams.set('minPrice', minPriceStr);
     if (maxPriceStr) nextParams.set('maxPrice', maxPriceStr);
     if (sortBy) nextParams.set('sortBy', sortBy);
+    if (offersOnly) nextParams.set('offers', 'only');
     return `/shop?${nextParams.toString()}`;
   };
 
@@ -90,12 +98,14 @@ export default async function Shop({
             </ol>
           </nav>
           <h1 className="font-poppins text-3xl md:text-4xl font-semibold text-black tracking-tight">
-            {searchQuery ? `Search: "${searchQuery}"` : selectedCategory ? `${selectedCategory} Collection` : 'All Products'}
+            {offersOnly ? "Today's Hot Deals 🔥" : searchQuery ? `Search: "${searchQuery}"` : selectedCategory ? `${selectedCategory} Collection` : 'All Products'}
           </h1>
           <p className="font-inter text-base text-gray-500 mt-2 max-w-2xl">
-            {searchQuery 
-              ? `Showing results for "${searchQuery}"` 
-              : 'Curated excellence. Discover our collection of premium pieces designed for the Sri Lankan lifestyle.'}
+            {offersOnly
+              ? 'Limited-time premium offers. Grab them before the countdown ticks to zero!'
+              : searchQuery 
+                ? `Showing results for "${searchQuery}"` 
+                : 'Curated excellence. Discover our collection of premium pieces designed for the Sri Lankan lifestyle.'}
           </p>
         </div>
         
@@ -147,6 +157,7 @@ export default async function Shop({
                 {searchQuery && <input type="hidden" name="search" value={searchQuery} />}
                 {selectedCategory && <input type="hidden" name="category" value={selectedCategory} />}
                 {sortBy && <input type="hidden" name="sortBy" value={sortBy} />}
+                {offersOnly && <input type="hidden" name="offers" value="only" />}
 
                 <div className="flex gap-4">
                   <input 
@@ -191,23 +202,41 @@ export default async function Shop({
             {(!products || products.length === 0) ? (
               <div className="col-span-full py-12 text-center border border-dashed border-gray-200 rounded">
                 <p className="font-inter text-gray-500">No products found matching your criteria.</p>
-                {(searchQuery || selectedCategory || minPriceStr || maxPriceStr) && (
+                {(searchQuery || selectedCategory || minPriceStr || maxPriceStr || offersOnly) && (
                   <Link href="/shop" className="mt-4 inline-block text-xs uppercase tracking-wider font-bold bg-black text-white px-6 py-3 rounded">
                     Clear All Filters
                   </Link>
                 )}
               </div>
             ) : (
-              products.map(product => (
-                <ProductCard 
-                  key={product.id} 
-                  id={product.id}
-                  category={product.category}
-                  name={product.name}
-                  price={product.price}
-                  imageUrl={product.image_url || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'} 
-                />
-              ))
+              products.map(product => {
+                if (offersOnly) {
+                  return (
+                    <HotDealCard 
+                      key={product.id} 
+                      id={product.id}
+                      category={product.category}
+                      name={product.name}
+                      price={Number(product.price)}
+                      imageUrl={product.image_url || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'} 
+                      discountPercent={product.discount_percent || 0}
+                      offerEndDate={product.offer_end_date}
+                      originalPrice={product.original_price}
+                    />
+                  );
+                }
+                return (
+                  <ProductCard 
+                    key={product.id} 
+                    id={product.id}
+                    category={product.category}
+                    name={product.name}
+                    price={product.price}
+                    imageUrl={product.image_url || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'} 
+                    originalPrice={product.original_price}
+                  />
+                );
+              })
             )}
           </div>
         </div>

@@ -5,18 +5,30 @@ import { createClient } from '@/utils/supabase/server';
 export default async function HotDeals() {
   const supabase = await createClient();
   
-  // Fetch up to 4 products from the database for the hot deals section
+  // 1. Fetch products where is_offer = true
   const { data: dbProducts } = await supabase
     .from('products')
     .select('*')
+    .eq('is_offer', true)
     .order('created_at', { ascending: false })
     .limit(4);
 
-  const products = dbProducts || [];
+  let products = dbProducts || [];
+  let isUsingFallback = false;
 
-  // Match the exact percentage discounts from the Abans homepage screenshot:
-  // Air Conditioner = 22%, Washing Machine = 25%, Refrigerator = 26%, TV = 11%
-  const abansDiscounts = [22, 25, 26, 11];
+  // 2. If no products are marked as offers yet, fall back to recent products
+  if (products.length === 0) {
+    const { data: fallbackProducts } = await supabase
+      .from('products')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(4);
+    products = fallbackProducts || [];
+    isUsingFallback = true;
+  }
+
+  // Fallback discounts from Abans screenshot: 22%, 25%, 26%, 11%
+  const fallbackDiscounts = [22, 25, 26, 11];
 
   return (
     <section className="py-20 px-5 md:px-16 max-w-[1440px] mx-auto animate-fade-in-up">
@@ -41,17 +53,30 @@ export default async function HotDeals() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.map((product, index) => (
-            <HotDealCard 
-              key={product.id} 
-              id={product.id}
-              category={product.category}
-              name={product.name}
-              price={Number(product.price)}
-              imageUrl={product.image_url || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'} 
-              discountPercent={abansDiscounts[index % abansDiscounts.length]}
-            />
-          ))}
+          {products.map((product, index) => {
+            // Determine discount percentage and offer end date
+            const discount = isUsingFallback 
+              ? fallbackDiscounts[index % fallbackDiscounts.length] 
+              : (product.discount_percent || 0);
+
+            const endDate = isUsingFallback 
+              ? null 
+              : product.offer_end_date;
+
+            return (
+              <HotDealCard 
+                key={product.id} 
+                id={product.id}
+                category={product.category}
+                name={product.name}
+                price={Number(product.price)}
+                imageUrl={product.image_url || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'} 
+                discountPercent={discount}
+                offerEndDate={endDate}
+                originalPrice={isUsingFallback ? null : product.original_price}
+              />
+            );
+          })}
         </div>
       )}
       

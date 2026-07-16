@@ -78,3 +78,23 @@ CREATE POLICY "Users can update their own profile"
 ON public.profiles FOR UPDATE
 TO authenticated
 USING ( auth.uid() = id );
+
+-- ==========================================
+-- 4. SITE SETTINGS (FOR DYNAMIC BANNERS)
+-- ==========================================
+CREATE TABLE public.site_settings (
+  id text PRIMARY KEY,
+  value text NOT NULL,
+  updated_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Public can view settings" 
+ON public.site_settings FOR SELECT 
+USING ( true );
+
+CREATE POLICY "Admins can manage settings" 
+ON public.site_settings FOR ALL 
+TO authenticated 
+USING ( true ) WITH CHECK ( true );

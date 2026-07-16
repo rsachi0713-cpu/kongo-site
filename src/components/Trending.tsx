@@ -4,32 +4,35 @@ import { createClient } from '@/utils/supabase/server';
 
 export default async function Trending() {
   const supabase = await createClient();
+  
+  // Fetch up to 4 latest trending products
   const { data: dbProducts } = await supabase
     .from('products')
     .select('*')
     .order('created_at', { ascending: false })
-    .limit(3);
+    .limit(4);
 
   const products = dbProducts || [];
 
   return (
-    <section className="py-[120px] px-5 md:px-16 max-w-[1440px] mx-auto animate-fade-in-up">
-      <div className="flex items-end justify-between mb-16">
+    <section className="py-20 px-5 md:px-16 max-w-[1440px] mx-auto animate-fade-in-up">
+      <div className="flex items-end justify-between mb-12 border-b border-gray-100 pb-5">
         <div>
-          <h2 className="font-poppins text-3xl md:text-4xl font-semibold text-black mb-2 tracking-tight">Trending Now</h2>
-          <p className="font-inter text-base text-gray-500">The most coveted pieces of the season.</p>
+          <span className="text-purple-700 font-inter text-xs uppercase tracking-widest font-black block mb-2">Customer Favorites</span>
+          <h2 className="font-poppins text-3xl md:text-4xl font-bold text-black tracking-tight">Trending Items</h2>
         </div>
-        <Link href="/shop" className="hidden md:inline-flex items-center gap-2 font-inter text-sm uppercase tracking-wider text-black hover:opacity-80 transition-opacity font-medium">
-          View All <span className="material-symbols-outlined text-sm">arrow_forward</span>
+        <Link href="/shop" className="hidden md:inline-flex items-center gap-2 font-inter text-xs uppercase tracking-widest text-purple-700 hover:text-black transition-colors font-extrabold">
+          View All Items <span className="material-symbols-outlined text-sm font-black">arrow_forward</span>
         </Link>
       </div>
       
       {products.length === 0 ? (
-        <div className="text-center py-12 border border-dashed border-gray-200 rounded">
-          <p className="font-inter text-sm text-gray-500">No products available yet.</p>
+        <div className="text-center py-16 border border-dashed border-gray-200 rounded">
+          <span className="material-symbols-outlined text-4xl text-gray-300 mb-3">inventory</span>
+          <p className="font-inter text-sm text-gray-500">No trending items available yet.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {products.map(product => (
             <ProductCard 
               key={product.id} 
@@ -44,8 +47,8 @@ export default async function Trending() {
       )}
       
       <div className="mt-8 text-center md:hidden">
-        <Link href="/shop" className="inline-block bg-transparent text-black border border-black px-8 py-4 rounded font-inter text-sm uppercase tracking-wider hover:bg-gray-100 transition-all duration-300 w-full font-medium">
-          View All Trending
+        <Link href="/shop" className="inline-block bg-black text-white px-8 py-4 rounded font-inter text-xs uppercase tracking-widest hover:opacity-90 transition-all duration-300 w-full font-bold">
+          View All Items
         </Link>
       </div>
     </section>

@@ -21,7 +21,8 @@ export async function getCartItems() {
         name,
         price,
         category,
-        image_url
+        image_url,
+        original_price
       )
     `)
     .eq('user_id', user.id)

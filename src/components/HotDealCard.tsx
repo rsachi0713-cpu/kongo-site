@@ -10,6 +10,8 @@ interface HotDealCardProps {
   price: number;
   imageUrl: string;
   discountPercent: number;
+  offerEndDate?: string | null;
+  originalPrice?: number | null;
 }
 
 export default function HotDealCard({
@@ -18,48 +20,74 @@ export default function HotDealCard({
   category,
   price,
   imageUrl,
-  discountPercent
+  discountPercent,
+  offerEndDate,
+  originalPrice
 }: HotDealCardProps) {
   // Calculate pricing values
-  const marketPrice = price / (1 - discountPercent / 100);
+  const marketPrice = originalPrice && Number(originalPrice) > price 
+    ? Number(originalPrice) 
+    : (price / (1 - discountPercent / 100));
   const savedAmount = marketPrice - price;
 
-  // Initialize countdown timer: 1 day, 2 hours, 50 minutes, 1 second (from screenshot)
+  // Initialize countdown timer
   const [timeLeft, setTimeLeft] = useState({
-    hours: 26, // 1 day (24h) + 2 hours = 26h
+    hours: 26, // Fallback default
     minutes: 50,
     seconds: 1
   });
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeLeft(prev => {
-        let { hours, minutes, seconds } = prev;
-        
-        if (seconds > 0) {
-          seconds--;
-        } else {
-          seconds = 59;
-          if (minutes > 0) {
-            minutes--;
+    if (offerEndDate) {
+      const calculateTimeLeft = () => {
+        const diff = new Date(offerEndDate).getTime() - new Date().getTime();
+        if (diff <= 0) {
+          return { hours: 0, minutes: 0, seconds: 0 };
+        }
+        const totalSecs = Math.floor(diff / 1000);
+        const hours = Math.floor(totalSecs / 3600);
+        const minutes = Math.floor((totalSecs % 3600) / 60);
+        const seconds = totalSecs % 60;
+        return { hours, minutes, seconds };
+      };
+
+      setTimeLeft(calculateTimeLeft());
+
+      const interval = setInterval(() => {
+        setTimeLeft(calculateTimeLeft());
+      }, 1000);
+
+      return () => clearInterval(interval);
+    } else {
+      // Fallback mock countdown ticks down 1 second at a time
+      const interval = setInterval(() => {
+        setTimeLeft(prev => {
+          let { hours, minutes, seconds } = prev;
+          
+          if (seconds > 0) {
+            seconds--;
           } else {
-            minutes = 59;
-            if (hours > 0) {
-              hours--;
+            seconds = 59;
+            if (minutes > 0) {
+              minutes--;
             } else {
-              // Timer reset or complete
-              hours = 26;
-              minutes = 50;
-              seconds = 1;
+              minutes = 59;
+              if (hours > 0) {
+                hours--;
+              } else {
+                hours = 26;
+                minutes = 50;
+                seconds = 1;
+              }
             }
           }
-        }
-        return { hours, minutes, seconds };
-      });
-    }, 1000);
+          return { hours, minutes, seconds };
+        });
+      }, 1000);
 
-    return () => clearInterval(interval);
-  }, []);
+      return () => clearInterval(interval);
+    }
+  }, [offerEndDate]);
 
   return (
     <Link href={`/product/${id}`} className="group block cursor-pointer bg-white border border-gray-200 hover:border-black rounded-sm overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
@@ -91,18 +119,18 @@ export default function HotDealCard({
 
         {/* Countdown Timer overlay at the bottom of the image area */}
         <div className="absolute bottom-3 left-3 right-3 z-20">
-          <div className="bg-yellow-400 text-black py-1.5 px-3 flex justify-between items-center rounded-sm border border-yellow-500 shadow-md">
-            <span className="font-inter text-[8px] uppercase tracking-widest font-black text-gray-800">Offer Ends In</span>
-            <div className="flex items-center gap-1 font-mono text-xs font-extrabold text-black">
-              <span className="bg-black text-white px-1.5 py-0.5 rounded-sm min-w-[20px] text-center">
+          <div className="bg-yellow-400 text-black py-2 px-3 flex justify-between items-center rounded-sm border border-yellow-500 shadow-md">
+            <span className="font-inter text-[10px] uppercase tracking-wider font-black text-gray-800">Offer Ends In</span>
+            <div className="flex items-center gap-1 font-mono text-sm font-extrabold text-black">
+              <span className="bg-black text-white px-1.5 py-0.5 rounded-sm min-w-[22px] text-center">
                 {String(timeLeft.hours).padStart(2, '0')}
               </span>
               <span>:</span>
-              <span className="bg-black text-white px-1.5 py-0.5 rounded-sm min-w-[20px] text-center">
+              <span className="bg-black text-white px-1.5 py-0.5 rounded-sm min-w-[22px] text-center">
                 {String(timeLeft.minutes).padStart(2, '0')}
               </span>
               <span>:</span>
-              <span className="bg-black text-white px-1.5 py-0.5 rounded-sm min-w-[20px] text-center">
+              <span className="bg-black text-white px-1.5 py-0.5 rounded-sm min-w-[22px] text-center">
                 {String(timeLeft.seconds).padStart(2, '0')}
               </span>
             </div>
