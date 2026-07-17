@@ -9,17 +9,22 @@ export default function Header({ user }: { user?: any }) {
 
   useEffect(() => {
     const fetchCartCount = async () => {
+      if (!user) {
+        setCartCount(0);
+        return;
+      }
       try {
         const supabase = createClient();
-        const { data: { user: currentUser } } = await supabase.auth.getUser();
-        if (currentUser) {
-          const { count } = await supabase
-            .from('cart_items')
-            .select('id', { count: 'exact', head: true })
-            .eq('user_id', currentUser.id);
-          setCartCount(count || 0);
-        } else {
+        const { count, error } = await supabase
+          .from('cart_items')
+          .select('id', { count: 'exact', head: true })
+          .eq('user_id', user.id);
+        
+        if (error) {
+          console.warn("Failed to fetch cart count:", error);
           setCartCount(0);
+        } else {
+          setCartCount(count || 0);
         }
       } catch (err) {
         console.warn("Failed to fetch cart count due to connection/network limits:", err);
