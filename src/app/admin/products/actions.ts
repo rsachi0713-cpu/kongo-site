@@ -183,10 +183,10 @@ export async function editProduct(formData: FormData) {
   const currentImagesList = dbProduct?.images || []
 
   // 2. Identify and delete removed files from Storage
-  const deletedImages = currentImagesList.filter(url => !remainingImages.includes(url))
+  const deletedImages = currentImagesList.filter((url: string) => !remainingImages.includes(url))
   const fileNamesToDelete = deletedImages
-    .filter(url => url.includes('/storage/v1/object/public/product-images/'))
-    .map(url => url.split('/product-images/').pop())
+    .filter((url: string) => url.includes('/storage/v1/object/public/product-images/'))
+    .map((url: string) => url.split('/product-images/').pop())
     .filter(Boolean) as string[]
 
   if (fileNamesToDelete.length > 0) {
