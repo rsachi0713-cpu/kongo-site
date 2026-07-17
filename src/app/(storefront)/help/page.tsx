@@ -103,3 +103,6 @@ export default function HelpCenterPage() {
     </div>
   );
 }
+
+
+export const runtime = 'edge';

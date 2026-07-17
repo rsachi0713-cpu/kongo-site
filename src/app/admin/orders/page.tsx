@@ -122,3 +122,6 @@ export default async function AdminOrders() {
     </div>
   );
 }
+
+
+export const runtime = 'edge';

@@ -153,3 +153,6 @@ export default async function NewProductPage({ searchParams }: { searchParams: P
     </div>
   );
 }
+
+
+export const runtime = 'edge';

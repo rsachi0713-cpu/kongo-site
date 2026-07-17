@@ -25,3 +25,6 @@ export default async function Cart() {
     </div>
   );
 }
+
+
+export const runtime = 'edge';

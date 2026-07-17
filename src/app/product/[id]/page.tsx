@@ -136,3 +136,6 @@ export default async function ProductDetails({ params }: { params: Promise<{ id:
     </div>
   );
 }
+
+
+export const runtime = 'edge';

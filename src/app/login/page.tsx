@@ -66,3 +66,6 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
     </div>
   );
 }
+
+
+export const runtime = 'edge';

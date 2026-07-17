@@ -172,3 +172,6 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
     </div>
   );
 }
+
+
+export const runtime = 'edge';

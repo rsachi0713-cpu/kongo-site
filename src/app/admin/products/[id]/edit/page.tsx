@@ -240,3 +240,6 @@ export default async function EditProductPage({
     </div>
   );
 }
+
+
+export const runtime = 'edge';

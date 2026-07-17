@@ -65,3 +65,6 @@ export default function PrivacyPolicyPage() {
     </div>
   );
 }
+
+
+export const runtime = 'edge';

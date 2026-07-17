@@ -162,3 +162,6 @@ export default function ContactPage() {
     </div>
   );
 }
+
+
+export const runtime = 'edge';

@@ -91,3 +91,6 @@ export default function AdminLoginPage() {
     </div>
   );
 }
+
+
+export const runtime = 'edge';

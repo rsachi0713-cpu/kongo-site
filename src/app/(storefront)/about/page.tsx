@@ -58,3 +58,6 @@ export default function AboutPage() {
     </div>
   );
 }
+
+
+export const runtime = 'edge';

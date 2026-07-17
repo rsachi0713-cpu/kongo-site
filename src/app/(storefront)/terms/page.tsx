@@ -62,3 +62,6 @@ export default function TermsConditionsPage() {
     </div>
   );
 }
+
+
+export const runtime = 'edge';

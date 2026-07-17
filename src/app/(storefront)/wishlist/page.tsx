@@ -56,3 +56,6 @@ export default async function Wishlist() {
     </div>
   );
 }
+
+
+export const runtime = 'edge';
