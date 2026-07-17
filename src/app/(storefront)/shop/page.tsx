@@ -246,4 +246,4 @@ export default async function Shop({
 }
 
 
-export const runtime = 'edge';
+

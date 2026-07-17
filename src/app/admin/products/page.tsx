@@ -139,4 +139,4 @@ export default async function AdminProducts() {
 }
 
 
-export const runtime = 'edge';
+

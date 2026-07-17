@@ -58,4 +58,4 @@ export default async function Wishlist() {
 }
 
 
-export const runtime = 'edge';
+

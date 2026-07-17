@@ -155,4 +155,4 @@ export default async function NewProductPage({ searchParams }: { searchParams: P
 }
 
 
-export const runtime = 'edge';
+

@@ -5,4 +5,4 @@ export default function OrdersRedirectPage() {
 }
 
 
-export const runtime = 'edge';
+

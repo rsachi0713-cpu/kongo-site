@@ -48,4 +48,4 @@ export default async function AdminSettings() {
 }
 
 
-export const runtime = 'edge';
+

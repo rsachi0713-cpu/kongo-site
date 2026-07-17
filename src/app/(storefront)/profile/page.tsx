@@ -197,4 +197,4 @@ export default async function ProfilePage() {
 }
 
 
-export const runtime = 'edge';
+

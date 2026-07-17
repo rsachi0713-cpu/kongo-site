@@ -124,4 +124,4 @@ export default async function AdminOrders() {
 }
 
 
-export const runtime = 'edge';
+

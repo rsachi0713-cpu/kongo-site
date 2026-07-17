@@ -242,4 +242,4 @@ export default async function EditProductPage({
 }
 
 
-export const runtime = 'edge';
+

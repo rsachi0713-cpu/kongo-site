@@ -184,4 +184,4 @@ export default async function AdminDashboard() {
 }
 
 
-export const runtime = 'edge';
+

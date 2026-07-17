@@ -115,4 +115,4 @@ export default async function CategoryList() {
 }
 
 
-export const runtime = 'edge';
+

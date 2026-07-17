@@ -64,4 +64,4 @@ export default function TermsConditionsPage() {
 }
 
 
-export const runtime = 'edge';
+

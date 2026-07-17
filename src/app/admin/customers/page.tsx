@@ -126,4 +126,4 @@ export default async function AdminCustomers() {
 }
 
 
-export const runtime = 'edge';
+

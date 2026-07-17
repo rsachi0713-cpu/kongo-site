@@ -68,4 +68,4 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
 }
 
 
-export const runtime = 'edge';
+
