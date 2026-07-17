@@ -18,7 +18,7 @@ export default function ClientLayoutWrapper({ children, user }: { children: Reac
   return (
     <>
       <Header user={user} />
-      <main className="flex-grow pt-32">
+      <main className="flex-grow pt-[108px] md:pt-[128px]">
         {children}
       </main>
       <Footer />

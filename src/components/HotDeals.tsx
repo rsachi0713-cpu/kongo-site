@@ -31,13 +31,13 @@ export default async function HotDeals() {
   const fallbackDiscounts = [22, 25, 26, 11];
 
   return (
-    <section className="py-20 px-5 md:px-16 max-w-[1440px] mx-auto animate-fade-in-up">
+    <section className="py-10 md:py-20 px-4 md:px-16 max-w-[1440px] mx-auto animate-fade-in-up">
       {/* Deals Header Section */}
-      <div className="flex items-end justify-between mb-12 border-b border-gray-100 pb-5">
+      <div className="flex items-end justify-between mb-8 md:mb-12 border-b border-gray-100 pb-4 md:pb-5">
         <div>
           <span className="text-red-600 font-inter text-xs uppercase tracking-widest font-black block mb-2">Limited Time Offers</span>
-          <h2 className="font-poppins text-3xl md:text-4xl font-bold text-black tracking-tight flex items-center gap-2">
-            Today's Promotional Offers
+          <h2 className="font-poppins text-2xl md:text-4xl font-bold text-black tracking-tight flex items-center gap-2">
+            Today's Offers
             <span className="material-symbols-outlined text-red-600 animate-bounce">local_fire_department</span>
           </h2>
         </div>

@@ -47,11 +47,11 @@ const CATEGORIES_DATA = [
 
 export default function BrowseCategories() {
   return (
-    <section className="py-20 px-5 md:px-16 max-w-[1440px] mx-auto animate-fade-in-up border-t border-gray-100">
+    <section className="py-10 md:py-20 px-4 md:px-16 max-w-[1440px] mx-auto animate-fade-in-up border-t border-gray-100">
       {/* Categories Header */}
-      <div className="text-center mb-16">
+      <div className="text-center mb-8 md:mb-16">
         <span className="text-purple-700 font-inter text-xs uppercase tracking-widest font-black block mb-2">Shop By department</span>
-        <h2 className="font-poppins text-3xl md:text-4xl font-bold text-black tracking-tight">Explore Categories</h2>
+        <h2 className="font-poppins text-2xl md:text-4xl font-bold text-black tracking-tight">Explore Categories</h2>
         <p className="font-inter text-sm text-gray-500 mt-2 max-w-md mx-auto">Browse through our wide collection of premium items curated just for you.</p>
       </div>
 

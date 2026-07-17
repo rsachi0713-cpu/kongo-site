@@ -15,11 +15,11 @@ export default async function Trending() {
   const products = dbProducts || [];
 
   return (
-    <section className="py-20 px-5 md:px-16 max-w-[1440px] mx-auto animate-fade-in-up">
+    <section className="py-10 md:py-20 px-4 md:px-16 max-w-[1440px] mx-auto animate-fade-in-up">
       <div className="flex items-end justify-between mb-12 border-b border-gray-100 pb-5">
         <div>
           <span className="text-purple-700 font-inter text-xs uppercase tracking-widest font-black block mb-2">Customer Favorites</span>
-          <h2 className="font-poppins text-3xl md:text-4xl font-bold text-black tracking-tight">Trending Items</h2>
+          <h2 className="font-poppins text-2xl md:text-4xl font-bold text-black tracking-tight">Trending Items</h2>
         </div>
         <Link href="/shop" className="hidden md:inline-flex items-center gap-2 font-inter text-xs uppercase tracking-widest text-purple-700 hover:text-black transition-colors font-extrabold">
           View All Items <span className="material-symbols-outlined text-sm font-black">arrow_forward</span>
