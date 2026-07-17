@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:pages": "next build && opennextjs-cloudflare build && mkdir -p .pages-output && cp -r .open-next/assets/* .pages-output/ 2>/dev/null || true && cp .open-next/worker.js .pages-output/_worker.js",
     "start": "next start",
     "lint": "eslint"
   },
