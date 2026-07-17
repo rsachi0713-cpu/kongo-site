@@ -19,6 +19,8 @@ export const metadata: Metadata = {
   description: "Luxury e-commerce marketplace for premium products.",
 };
 
+export const runtime = 'edge';
+
 import { createClient } from '@/utils/supabase/server';
 
 export default async function RootLayout({
