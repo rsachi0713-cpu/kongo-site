@@ -1,8 +1,0 @@
-name = "kongo-site"
-compatibility_date = "2024-09-23"
-compatibility_flags = ["nodejs_compat"]
-pages_build_output_dir = ".pages-output"
-
-[vars]
-NEXT_PUBLIC_SUPABASE_URL = "https://gapcihekbovyioiamqmf.supabase.co"
-NEXT_PUBLIC_SUPABASE_ANON_KEY = "sb_publishable_OWIfb4iSl-zY1J4eav39Fg_-33GCDxm"
