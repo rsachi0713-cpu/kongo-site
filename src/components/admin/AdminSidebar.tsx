@@ -10,6 +10,7 @@ export default function AdminSidebar() {
     { name: 'Dashboard', href: '/admin', icon: 'dashboard' },
     { name: 'Products', href: '/admin/products', icon: 'inventory_2' },
     { name: 'Orders', href: '/admin/orders', icon: 'shopping_bag' },
+    { name: 'Web Orders', href: '/admin/web-orders', icon: 'language' },
     { name: 'Customers', href: '/admin/customers', icon: 'group' },
     { name: 'Settings', href: '/admin/settings', icon: 'settings' },
   ];

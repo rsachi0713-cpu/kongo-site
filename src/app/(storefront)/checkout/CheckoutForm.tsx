@@ -23,7 +23,8 @@ export default function CheckoutForm({ cartItems }: { cartItems: any[] }) {
   const [city, setCity] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [whatsappNum, setWhatsappNum] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState<'card' | 'paypal' | 'whatsapp'>('whatsapp');
+  const [contactNumber, setContactNumber] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState<'card' | 'paypal' | 'whatsapp' | 'web'>('whatsapp');
   
   const [isPending, startTransition] = useTransition();
   const [isSuccess, setIsSuccess] = useState(false);
@@ -41,8 +42,16 @@ export default function CheckoutForm({ cartItems }: { cartItems: any[] }) {
   const handlePlaceOrder = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!firstName || !lastName || !address || !city || !postalCode || !whatsappNum) {
-      alert('Please fill out all required fields, including your WhatsApp number.');
+    if (!firstName || !lastName || !address || !city || !postalCode) {
+      alert('Please fill out all required shipping fields.');
+      return;
+    }
+    if (paymentMethod === 'whatsapp' && !whatsappNum) {
+      alert('Please provide your WhatsApp number.');
+      return;
+    }
+    if (paymentMethod === 'web' && !contactNumber) {
+      alert('Please provide a contact number.');
       return;
     }
 
@@ -55,7 +64,9 @@ export default function CheckoutForm({ cartItems }: { cartItems: any[] }) {
           address,
           city,
           postal_code: postalCode,
-          whatsapp_number: whatsappNum
+          payment_method: paymentMethod,
+          contact_number: paymentMethod === 'web' ? contactNumber : null,
+          whatsapp_number: paymentMethod === 'whatsapp' ? whatsappNum : null
         };
 
         const itemsSnapshot = cartItems.map(item => ({
@@ -70,17 +81,18 @@ export default function CheckoutForm({ cartItems }: { cartItems: any[] }) {
         const dbOrder = await createOrder(total, shippingAddress, itemsSnapshot);
         const orderId = dbOrder.id.substring(0, 8).toUpperCase();
 
-        // 2. Build the WhatsApp message
-        let itemsText = '';
-        cartItems.forEach((item, idx) => {
-          if (item.product) {
-            const itemPrice = Number(item.product.price);
-            const itemTotal = itemPrice * item.quantity;
-            itemsText += `${idx + 1}. ${item.product.name} (x${item.quantity}) - LKR ${itemPrice.toLocaleString(undefined, { minimumFractionDigits: 2 })}\n`;
-          }
-        });
+        if (paymentMethod === 'whatsapp') {
+          // 2. Build the WhatsApp message
+          let itemsText = '';
+          cartItems.forEach((item, idx) => {
+            if (item.product) {
+              const itemPrice = Number(item.product.price);
+              const itemTotal = itemPrice * item.quantity;
+              itemsText += `${idx + 1}. ${item.product.name} (x${item.quantity}) - LKR ${itemPrice.toLocaleString(undefined, { minimumFractionDigits: 2 })}\n`;
+            }
+          });
 
-        const rawMessage = 
+          const rawMessage = 
 `*--- NEW ORDER (KONGO) ---*
 
 *Order ID:* #${orderId}
@@ -100,14 +112,15 @@ ${itemsText}
 
 Please confirm my order. Thank you!`;
 
-        const encodedMessage = encodeURIComponent(rawMessage);
-        // Using international format for Sri Lankan numbers: 94753951531
-        const waUrl = `https://wa.me/94753951531?text=${encodedMessage}`;
+          const encodedMessage = encodeURIComponent(rawMessage);
+          // Using international format for Sri Lankan numbers: 94753951531
+          const waUrl = `https://wa.me/94753951531?text=${encodedMessage}`;
 
-        setWhatsappLink(waUrl);
+          setWhatsappLink(waUrl);
 
-        // 3. Open WhatsApp in a new tab
-        window.open(waUrl, '_blank');
+          // 3. Open WhatsApp in a new tab
+          window.open(waUrl, '_blank');
+        }
 
         // 4. Clear the cart in Supabase
         await clearCart();
@@ -124,20 +137,24 @@ Please confirm my order. Thank you!`;
     return (
       <div className="text-center py-20 animate-fade-in-up bg-white border border-gray-100 rounded p-8 max-w-2xl mx-auto shadow-sm">
         <span className="material-symbols-outlined text-6xl text-green-500 mb-6">check_circle</span>
-        <h2 className="font-poppins text-3xl font-bold mb-4 text-black">Order Sent Successfully!</h2>
+        <h2 className="font-poppins text-3xl font-bold mb-4 text-black">Order Confirmed!</h2>
         <p className="font-inter text-gray-600 mb-8 max-w-md mx-auto leading-relaxed">
-          Thank you! Your order details have been submitted. We have opened WhatsApp to send the order confirmation message directly to our agent.
+          {paymentMethod === 'whatsapp' 
+            ? "Thank you! Your order details have been submitted. We have opened WhatsApp to send the order confirmation message directly to our agent."
+            : "Thank you for shopping with us! Your order has been placed successfully and we will contact you shortly to confirm."}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a 
-            href={whatsappLink} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="bg-green-600 text-white font-inter font-semibold px-8 py-4 rounded text-xs uppercase tracking-widest hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
-          >
-            <span className="material-symbols-outlined text-sm">chat</span>
-            Send WhatsApp Message Again
-          </a>
+          {paymentMethod === 'whatsapp' && (
+            <a 
+              href={whatsappLink} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="bg-green-600 text-white font-inter font-semibold px-8 py-4 rounded text-xs uppercase tracking-widest hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
+            >
+              <span className="material-symbols-outlined text-sm">chat</span>
+              Send WhatsApp Message Again
+            </a>
+          )}
           <Link 
             href="/" 
             className="bg-black text-white font-inter font-semibold px-8 py-4 rounded text-xs uppercase tracking-widest hover:opacity-90 transition-colors flex items-center justify-center"
@@ -260,6 +277,22 @@ Please confirm my order. Thank you!`;
                 <span className="font-inter text-sm font-medium text-black">WhatsApp Order</span>
               </div>
               <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="h-5 w-auto object-contain" />
+            {/* Web Order */}
+            <label className={`flex items-center justify-between p-4 border rounded cursor-pointer transition-all ${
+              paymentMethod === 'web' ? 'border-black bg-gray-50/50' : 'border-gray-200 hover:bg-gray-50'
+            }`}>
+              <div className="flex items-center gap-3">
+                <input 
+                  type="radio" 
+                  name="payment" 
+                  value="web"
+                  checked={paymentMethod === 'web'} 
+                  onChange={() => setPaymentMethod('web')}
+                  className="w-4 h-4 text-black focus:ring-black" 
+                />
+                <span className="font-inter text-sm font-medium text-black">Web Order</span>
+              </div>
+              <span className="material-symbols-outlined text-gray-600 text-xl">language</span>
             </label>
           </div>
 
@@ -280,6 +313,27 @@ Please confirm my order. Thank you!`;
                     onChange={e => setWhatsappNum(e.target.value)}
                     required
                     className="w-full bg-white border border-green-300 py-2.5 px-4 font-inter text-sm rounded text-black focus:outline-none focus:border-green-600 transition-colors" 
+                  />
+                </div>
+              </div>
+            )}
+            
+            {paymentMethod === 'web' && (
+              <div className="p-5 border border-gray-200 rounded-sm bg-gray-50 text-gray-800 font-inter text-sm space-y-4 animate-fade-in-up">
+                <div className="flex items-center gap-3">
+                  <span className="material-symbols-outlined text-gray-500 text-2xl">info</span>
+                  <p>We will contact you via this number to confirm your order details and arrange delivery.</p>
+                </div>
+                <div className="border-t border-gray-200 pt-3">
+                  <label htmlFor="contactNumber" className="block font-inter text-xs font-semibold text-gray-700 mb-1.5">Contact Number</label>
+                  <input 
+                    type="tel" 
+                    id="contactNumber"
+                    placeholder="e.g. 0771234567" 
+                    value={contactNumber}
+                    onChange={e => setContactNumber(e.target.value)}
+                    required
+                    className="w-full bg-white border border-gray-300 py-2.5 px-4 font-inter text-sm rounded text-black focus:outline-none focus:border-black transition-colors" 
                   />
                 </div>
               </div>
