@@ -47,9 +47,11 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  const isAdminSession = request.cookies.get('kongo_admin_session')?.value === 'true'
+
   // Here you can check for admin routes if needed
   if (
-    !user &&
+    !user && !isAdminSession &&
     request.nextUrl.pathname.startsWith('/admin') &&
     request.nextUrl.pathname !== '/login' &&
     request.nextUrl.pathname !== '/admin-login'
