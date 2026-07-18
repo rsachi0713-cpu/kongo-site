@@ -1,3 +1,10 @@
+
+globalThis.addEventListener = globalThis.addEventListener || function() {};
+const originalConsoleError = console.error;
+console.error = function(...args) {
+  originalConsoleError("[INTERCEPTED ERROR]:", ...args);
+};
+process.on = process.on || function() {};
 //@ts-expect-error: Will be resolved by wrangler build
 import { handleCdnCgiImageRequest, handleImageRequest } from "./cloudflare/images.js";
 //@ts-expect-error: Will be resolved by wrangler build

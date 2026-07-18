@@ -25,7 +25,7 @@
   "/admin/products/new/page": "/admin/products/new",
   "/admin/products/page": "/admin/products",
   "/admin/settings/page": "/admin/settings",
-  "/admin/customers/page": "/admin/customers",
   "/admin/orders/page": "/admin/orders",
+  "/admin/customers/page": "/admin/customers",
   "/admin/page": "/admin"
 }
