@@ -277,6 +277,8 @@ Please confirm my order. Thank you!`;
                 <span className="font-inter text-sm font-medium text-black">WhatsApp Order</span>
               </div>
               <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="h-5 w-auto object-contain" />
+            </label>
+            
             {/* Web Order */}
             <label className={`flex items-center justify-between p-4 border rounded cursor-pointer transition-all ${
               paymentMethod === 'web' ? 'border-black bg-gray-50/50' : 'border-gray-200 hover:bg-gray-50'
