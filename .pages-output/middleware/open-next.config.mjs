@@ -1,5 +1,6 @@
 // open-next.config.ts
 var config = {
+  buildCommand: "npx next build --webpack",
   default: {
     override: {
       wrapper: "cloudflare-node",

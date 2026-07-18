@@ -2,6 +2,7 @@ import { createRequire as topLevelCreateRequire } from 'module';const require = 
 
 // open-next.config.ts
 var config = {
+  buildCommand: "npx next build --webpack",
   default: {
     override: {
       wrapper: "cloudflare-node",
