@@ -51,7 +51,8 @@ export async function updateSession(request: NextRequest) {
   if (
     !user &&
     request.nextUrl.pathname.startsWith('/admin') &&
-    request.nextUrl.pathname !== '/login'
+    request.nextUrl.pathname !== '/login' &&
+    request.nextUrl.pathname !== '/admin-login'
   ) {
     // Redirect unauthenticated users trying to access admin
     const url = request.nextUrl.clone()
