@@ -2,7 +2,8 @@ import Link from 'next/link';
 import { createClient } from '@/utils/supabase/server';
 import DeleteButton from './DeleteButton';
 
-export default async function AdminProducts() {
+export default async function AdminProducts(props: { searchParams: Promise<{ error?: string }> }) {
+  const searchParams = await props.searchParams;
   const supabase = await createClient();
   const { data: dbProducts } = await supabase
     .from('products')
@@ -13,6 +14,11 @@ export default async function AdminProducts() {
 
   return (
     <div className="animate-fade-in-up">
+      {searchParams?.error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          {searchParams.error}
+        </div>
+      )}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
         <div>
           <h1 className="font-poppins text-2xl font-semibold text-black">Products</h1>

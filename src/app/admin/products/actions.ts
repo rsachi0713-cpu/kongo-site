@@ -2,10 +2,19 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { createClient } from '@/utils/supabase/server'
+import { createAdminClient } from '@/utils/supabase/admin'
+import { cookies } from 'next/headers'
+
+async function requireAdmin() {
+  const cookieStore = await cookies();
+  if (cookieStore.get('kongo_admin_session')?.value !== 'true') {
+    throw new Error('Unauthorized');
+  }
+}
 
 export async function addProduct(formData: FormData) {
-  const supabase = await createClient()
+  await requireAdmin();
+  const supabase = await createAdminClient()
 
   // Extract form data
   const name = formData.get('name') as string
@@ -91,7 +100,8 @@ export async function addProduct(formData: FormData) {
 }
 
 export async function deleteProduct(formData: FormData) {
-  const supabase = await createClient()
+  await requireAdmin();
+  const supabase = await createAdminClient()
   const id = formData.get('id') as string
 
   if (!id) {
@@ -117,10 +127,14 @@ export async function deleteProduct(formData: FormData) {
     }
   }
 
-  const { error } = await supabase.from('products').delete().eq('id', id)
+  const { data: deletedData, error } = await supabase.from('products').delete().eq('id', id).select()
 
   if (error) {
     return redirect(`/admin/products?error=${encodeURIComponent(error.message)}`)
+  }
+
+  if (!deletedData || deletedData.length === 0) {
+    return redirect(`/admin/products?error=${encodeURIComponent('Failed to delete product. Make sure you have permission (RLS policies) to delete products.')}`)
   }
 
   revalidatePath('/admin/products')
@@ -131,7 +145,8 @@ export async function deleteProduct(formData: FormData) {
 }
 
 export async function editProduct(formData: FormData) {
-  const supabase = await createClient()
+  await requireAdmin();
+  const supabase = await createAdminClient()
 
   const id = formData.get('id') as string
   const name = formData.get('name') as string

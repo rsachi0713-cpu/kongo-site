@@ -1,10 +1,12 @@
 'use server';
 
+import { createAdminClient } from '@/utils/supabase/admin';
 import { createClient } from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
 
 export async function getSetting(id: string, defaultValue: string = '') {
-  const supabase = await createClient();
+  const supabase = await createClient(); // public read is fine
   const { data, error } = await supabase
     .from('site_settings')
     .select('value')
@@ -19,14 +21,15 @@ export async function getSetting(id: string, defaultValue: string = '') {
 }
 
 export async function updateSetting(id: string, value: string) {
-  const supabase = await createClient();
+  const cookieStore = await cookies();
+  const isAdminSession = cookieStore.get('kongo_admin_session')?.value === 'true';
   
-  // Verify admin session (Optional, but good practice. RLS handles actual security)
-  const { data: { user }, error: userError } = await supabase.auth.getUser();
-  if (userError || !user) {
+  if (!isAdminSession) {
     throw new Error('Unauthorized');
   }
 
+  const supabase = await createAdminClient();
+  
   const { error } = await supabase
     .from('site_settings')
     .upsert({ 
@@ -44,16 +47,18 @@ export async function updateSetting(id: string, value: string) {
 }
 
 export async function uploadBannerImage(formData: FormData) {
-  const supabase = await createClient();
+  const cookieStore = await cookies();
+  const isAdminSession = cookieStore.get('kongo_admin_session')?.value === 'true';
+  
+  if (!isAdminSession) {
+    throw new Error('Unauthorized');
+  }
+
+  const supabase = await createAdminClient();
   const file = formData.get('file') as File;
   
   if (!file || file.size === 0) {
     throw new Error('No file provided');
-  }
-
-  const { data: { user }, error: userError } = await supabase.auth.getUser();
-  if (userError || !user) {
-    throw new Error('Unauthorized');
   }
 
   const fileExt = file.name.split('.').pop() || 'png';

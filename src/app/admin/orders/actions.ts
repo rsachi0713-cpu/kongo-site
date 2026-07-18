@@ -1,10 +1,18 @@
 "use server";
 
-import { createClient } from '@/utils/supabase/server';
+import { createAdminClient } from '@/utils/supabase/admin';
 import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
 
 export async function updateOrderStatus(orderId: string, newStatus: string) {
-  const supabase = await createClient();
+  const cookieStore = await cookies();
+  const isAdminSession = cookieStore.get('kongo_admin_session')?.value === 'true';
+  
+  if (!isAdminSession) {
+    throw new Error('Unauthorized');
+  }
+
+  const supabase = await createAdminClient();
   
   const { error } = await supabase
     .from('orders')

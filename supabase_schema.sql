@@ -33,6 +33,11 @@ ON public.products FOR UPDATE
 TO authenticated 
 USING ( true );
 
+CREATE POLICY "Authenticated users can delete products"
+ON public.products FOR DELETE
+TO authenticated
+USING ( true );
+
 
 -- 2. Create Orders Table
 CREATE TABLE public.orders (
