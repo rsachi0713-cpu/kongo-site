@@ -4385,7 +4385,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/admin/products/[id]/edit/page.js": {
-      "bytes": 41167,
+      "bytes": 42056,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
@@ -5331,7 +5331,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/admin/products/new/page.js": {
-      "bytes": 38260,
+      "bytes": 39149,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
@@ -5928,7 +5928,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/admin/products/page.js": {
-      "bytes": 36928,
+      "bytes": 37506,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
@@ -6014,7 +6014,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/admin/settings/page.js": {
-      "bytes": 32074,
+      "bytes": 32658,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
@@ -6232,7 +6232,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/(storefront)/page.js": {
-      "bytes": 42968,
+      "bytes": 43552,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
@@ -6404,7 +6404,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/admin/orders/page.js": {
-      "bytes": 31129,
+      "bytes": 31315,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
@@ -9775,7 +9775,7 @@
           "bytesInOutput": 38384
         },
         ".open-next/server-functions/default/.next/server/app/admin/products/[id]/edit/page.js": {
-          "bytesInOutput": 41347
+          "bytesInOutput": 42262
         },
         ".open-next/server-functions/default/.next/server/app/(storefront)/category/page.js": {
           "bytesInOutput": 30506
@@ -9808,7 +9808,7 @@
           "bytesInOutput": 28502
         },
         ".open-next/server-functions/default/.next/server/app/admin/products/new/page.js": {
-          "bytesInOutput": 38399
+          "bytesInOutput": 39314
         },
         ".open-next/server-functions/default/.next/server/app/(storefront)/cart/page.js": {
           "bytesInOutput": 31742
@@ -9829,10 +9829,10 @@
           "bytesInOutput": 12048
         },
         ".open-next/server-functions/default/.next/server/app/admin/products/page.js": {
-          "bytesInOutput": 37116
+          "bytesInOutput": 37704
         },
         ".open-next/server-functions/default/.next/server/app/admin/settings/page.js": {
-          "bytesInOutput": 32186
+          "bytesInOutput": 32774
         },
         ".open-next/server-functions/default/.next/server/app/_global-error/page.js": {
           "bytesInOutput": 28397
@@ -9841,13 +9841,13 @@
           "bytesInOutput": 41952
         },
         ".open-next/server-functions/default/.next/server/app/(storefront)/page.js": {
-          "bytesInOutput": 43177
+          "bytesInOutput": 43765
         },
         ".open-next/server-functions/default/.next/server/app/product/[id]/page.js": {
           "bytesInOutput": 42875
         },
         ".open-next/server-functions/default/.next/server/app/admin/orders/page.js": {
-          "bytesInOutput": 31180
+          "bytesInOutput": 31363
         },
         ".open-next/server-functions/default/.next/server/app/admin-login/page.js": {
           "bytesInOutput": 27780
@@ -10012,7 +10012,7 @@
           "bytesInOutput": 61236
         }
       },
-      "bytes": 4835960
+      "bytes": 4839737
     }
   }
 }
