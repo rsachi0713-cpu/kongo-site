@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:pages": "next build && opennextjs-cloudflare build && node build-pages.js",
+    "build:pages": "next build --webpack && opennextjs-cloudflare build && node build-pages.js",
     "start": "next start",
     "lint": "eslint"
   },
