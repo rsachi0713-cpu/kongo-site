@@ -34,7 +34,7 @@ export default async function Trending() {
       ) : (
         <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-6 md:pb-0 scrollbar-hide">
           {products.map(product => (
-            <div key={product.id} className="min-w-[70vw] sm:min-w-[45vw] md:min-w-0 shrink-0 snap-start">
+            <div key={product.id} className="w-[45vw] sm:w-[30vw] md:w-auto shrink-0 snap-start">
               <ProductCard 
                 id={product.id}
                 category={product.category}

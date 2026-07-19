@@ -44,7 +44,7 @@ export default async function HotDeals() {
             const endDate = product.offer_end_date;
 
             return (
-              <div key={product.id} className="min-w-[85vw] sm:min-w-[45vw] md:min-w-0 shrink-0 snap-start">
+              <div key={product.id} className="w-[45vw] sm:w-[30vw] md:w-auto shrink-0 snap-start">
                 <HotDealCard 
                   id={product.id}
                   category={product.category}
