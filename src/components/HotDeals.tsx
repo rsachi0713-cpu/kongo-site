@@ -37,24 +37,25 @@ export default async function HotDeals() {
           <p className="font-inter text-sm text-gray-500">No active promotional deals available at the moment.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-6 md:pb-0 scrollbar-hide">
           {products.map((product, index) => {
             // Determine discount percentage and offer end date
             const discount = product.discount_percent || 0;
             const endDate = product.offer_end_date;
 
             return (
-              <HotDealCard 
-                key={product.id} 
-                id={product.id}
-                category={product.category}
-                name={product.name}
-                price={Number(product.price)}
-                imageUrl={product.image_url || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'} 
-                discountPercent={discount}
-                offerEndDate={endDate}
-                originalPrice={product.original_price}
-              />
+              <div key={product.id} className="min-w-[85vw] sm:min-w-[45vw] md:min-w-0 shrink-0 snap-start">
+                <HotDealCard 
+                  id={product.id}
+                  category={product.category}
+                  name={product.name}
+                  price={Number(product.price)}
+                  imageUrl={product.image_url || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'} 
+                  discountPercent={discount}
+                  offerEndDate={endDate}
+                  originalPrice={product.original_price}
+                />
+              </div>
             );
           })}
         </div>

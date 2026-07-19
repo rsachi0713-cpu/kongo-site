@@ -32,16 +32,17 @@ export default async function Trending() {
           <p className="font-inter text-sm text-gray-500">No trending items available yet.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-6 md:pb-0 scrollbar-hide">
           {products.map(product => (
-            <ProductCard 
-              key={product.id} 
-              id={product.id}
-              category={product.category}
-              name={product.name}
-              price={product.price}
-              imageUrl={product.image_url || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'} 
-            />
+            <div key={product.id} className="min-w-[70vw] sm:min-w-[45vw] md:min-w-0 shrink-0 snap-start">
+              <ProductCard 
+                id={product.id}
+                category={product.category}
+                name={product.name}
+                price={product.price}
+                imageUrl={product.image_url || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'} 
+              />
+            </div>
           ))}
         </div>
       )}
