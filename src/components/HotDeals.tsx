@@ -11,7 +11,7 @@ export default async function HotDeals() {
     .select('*')
     .eq('is_offer', true)
     .order('created_at', { ascending: false })
-    .limit(4);
+    .limit(6);
 
   const products = dbProducts || [];
 
@@ -37,7 +37,7 @@ export default async function HotDeals() {
           <p className="font-inter text-sm text-gray-500">No active promotional deals available at the moment.</p>
         </div>
       ) : (
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-6 md:pb-0 scrollbar-hide">
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 md:grid md:grid-cols-3 lg:grid-cols-6 md:gap-6 md:pb-0 scrollbar-hide">
           {products.map((product, index) => {
             // Determine discount percentage and offer end date
             const discount = product.discount_percent || 0;

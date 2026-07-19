@@ -10,7 +10,7 @@ export default async function Trending() {
     .from('products')
     .select('*')
     .order('created_at', { ascending: false })
-    .limit(4);
+    .limit(6);
 
   const products = dbProducts || [];
 
@@ -32,7 +32,7 @@ export default async function Trending() {
           <p className="font-inter text-sm text-gray-500">No trending items available yet.</p>
         </div>
       ) : (
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-6 md:pb-0 scrollbar-hide">
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 md:grid md:grid-cols-3 lg:grid-cols-6 md:gap-6 md:pb-0 scrollbar-hide">
           {products.map(product => (
             <div key={product.id} className="w-[45vw] sm:w-[30vw] md:w-auto shrink-0 snap-start">
               <ProductCard 
