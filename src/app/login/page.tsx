@@ -5,8 +5,8 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
   const params = await searchParams;
   
   return (
-    <div className="min-h-[70vh] flex items-center justify-center py-12 px-5 animate-fade-in-up">
-      <div className="max-w-md w-full bg-white p-8 border border-gray-200 shadow-sm rounded-sm">
+    <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center py-8 px-4 animate-fade-in-up">
+      <div className="max-w-md w-full bg-white p-6 md:p-8 border border-gray-200 shadow-sm rounded-sm">
         <div className="text-center mb-8">
           <h1 className="font-poppins text-3xl font-semibold text-black tracking-tight mb-2">Welcome Back</h1>
           <p className="font-inter text-sm text-gray-500">Sign in to your KONGO account</p>

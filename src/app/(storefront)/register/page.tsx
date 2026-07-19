@@ -61,8 +61,8 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center py-12 px-5 animate-fade-in-up">
-      <div className="max-w-md w-full bg-white p-8 border border-gray-200 shadow-sm rounded-sm">
+    <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center py-8 px-4 animate-fade-in-up">
+      <div className="max-w-md w-full bg-white p-6 md:p-8 border border-gray-200 shadow-sm rounded-sm">
         
         {/* Error Alert */}
         {errorMsg && (

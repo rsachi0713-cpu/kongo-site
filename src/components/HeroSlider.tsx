@@ -24,8 +24,7 @@ export default function HeroSlider({ banners }: { banners: string[] }) {
     <section className="w-full relative z-10 overflow-hidden bg-white">
       <Link 
         href="/shop" 
-        className="block relative w-full overflow-hidden group"
-        style={{ aspectRatio: '16/5' }}
+        className="block relative w-full overflow-hidden group aspect-[3/2] sm:aspect-[16/7] md:aspect-[16/5]"
       >
         {banners.map((banner, index) => (
           <img 

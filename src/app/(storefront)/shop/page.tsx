@@ -80,7 +80,7 @@ export default async function Shop({
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto px-5 md:px-16 py-12 animate-fade-in-up">
+    <div className="max-w-[1440px] mx-auto px-3 md:px-16 py-6 md:py-12 animate-fade-in-up">
       {/* Header & Breadcrumbs */}
       <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
@@ -198,7 +198,7 @@ export default async function Shop({
 
         {/* Product Grid */}
         <div className="flex-1">
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 xl:grid-cols-3 gap-3 md:gap-6">
             {(!products || products.length === 0) ? (
               <div className="col-span-full py-12 text-center border border-dashed border-gray-200 rounded">
                 <p className="font-inter text-gray-500">No products found matching your criteria.</p>
