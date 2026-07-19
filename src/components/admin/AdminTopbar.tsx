@@ -1,4 +1,16 @@
-export default function AdminTopbar() {
+import { createClient } from '@/utils/supabase/server';
+
+export default async function AdminTopbar() {
+  const supabase = await createClient();
+  
+  // Count unread orders
+  const { count } = await supabase
+    .from('orders')
+    .select('*', { count: 'exact', head: true })
+    .eq('is_read', false);
+    
+  const hasUnreadOrders = count ? count > 0 : false;
+  
   return (
     <header className="h-20 bg-white border-b border-gray-200 flex items-center justify-between px-6 md:px-10 sticky top-0 z-10">
       <div className="flex items-center gap-4">
@@ -21,7 +33,9 @@ export default function AdminTopbar() {
       <div className="flex items-center gap-6">
         <button className="text-gray-500 hover:text-black transition-colors relative">
           <span className="material-symbols-outlined">notifications</span>
-          <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+          {hasUnreadOrders && (
+            <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+          )}
         </button>
         
         <div className="flex items-center gap-3">

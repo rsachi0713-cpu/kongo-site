@@ -21,9 +21,12 @@ export default function CheckoutForm({ cartItems }: { cartItems: any[] }) {
   const [lastName, setLastName] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
-  const [postalCode, setPostalCode] = useState('');
-  const [whatsappNum, setWhatsappNum] = useState('');
-  const [contactNumber, setContactNumber] = useState('');
+  const [email, setEmail] = useState('');
+  const [country, setCountry] = useState('Sri Lanka');
+  const [stateProvince, setStateProvince] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [secondaryPhoneNumber, setSecondaryPhoneNumber] = useState('');
+  const [deliverToDifferentAddress, setDeliverToDifferentAddress] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<'card' | 'paypal' | 'whatsapp' | 'web'>('whatsapp');
   
   const [isPending, startTransition] = useTransition();
@@ -42,16 +45,8 @@ export default function CheckoutForm({ cartItems }: { cartItems: any[] }) {
   const handlePlaceOrder = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!firstName || !lastName || !address || !city || !postalCode) {
-      alert('Please fill out all required shipping fields.');
-      return;
-    }
-    if (paymentMethod === 'whatsapp' && !whatsappNum) {
-      alert('Please provide your WhatsApp number.');
-      return;
-    }
-    if (paymentMethod === 'web' && !contactNumber) {
-      alert('Please provide a contact number.');
+    if (!firstName || !lastName || !email || !address || !country || !stateProvince || !city || !phoneNumber) {
+      alert('Please fill out all required fields.');
       return;
     }
 
@@ -61,12 +56,15 @@ export default function CheckoutForm({ cartItems }: { cartItems: any[] }) {
         const shippingAddress = {
           first_name: firstName,
           last_name: lastName,
+          email,
           address,
+          country,
+          state_province: stateProvince,
           city,
-          postal_code: postalCode,
-          payment_method: paymentMethod,
-          contact_number: paymentMethod === 'web' ? contactNumber : null,
-          whatsapp_number: paymentMethod === 'whatsapp' ? whatsappNum : null
+          phone_number: phoneNumber,
+          secondary_phone_number: secondaryPhoneNumber,
+          deliver_to_different_address: deliverToDifferentAddress,
+          payment_method: paymentMethod
         };
 
         const itemsSnapshot = cartItems.map(item => ({
@@ -99,9 +97,10 @@ export default function CheckoutForm({ cartItems }: { cartItems: any[] }) {
 
 *Customer Details:*
 - Name: ${firstName} ${lastName}
-- Address: ${address}, ${city}
-- Postal Code: ${postalCode}
-- WhatsApp Number: ${whatsappNum}
+- Email: ${email}
+- Address: ${address}, ${city}, ${stateProvince}, ${country}
+- Phone: ${phoneNumber}
+${secondaryPhoneNumber ? `- Secondary Phone: ${secondaryPhoneNumber}\n` : ''}${deliverToDifferentAddress ? `- Deliver to different address requested\n` : ''}
 
 *Order Items:*
 ${itemsText}
@@ -170,51 +169,141 @@ Please confirm my order. Thank you!`;
     <form onSubmit={handlePlaceOrder} className="flex flex-col lg:flex-row gap-12 w-full">
       {/* Shipping & Payment Forms */}
       <div className="flex-1 space-y-10">
-        {/* Shipping Address */}
+        {/* Customer Details */}
         <div>
-          <h2 className="font-poppins text-xl font-medium text-black mb-6 border-b border-gray-200 pb-2">1. Shipping Address</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input 
-              type="text" 
-              placeholder="First Name" 
-              value={firstName}
-              onChange={e => setFirstName(e.target.value)}
-              required 
-              className="w-full bg-[#f9f9f9] border border-gray-300 py-3 px-4 font-inter text-sm rounded focus:outline-none focus:border-black transition-colors" 
-            />
-            <input 
-              type="text" 
-              placeholder="Last Name" 
-              value={lastName}
-              onChange={e => setLastName(e.target.value)}
-              required 
-              className="w-full bg-[#f9f9f9] border border-gray-300 py-3 px-4 font-inter text-sm rounded focus:outline-none focus:border-black transition-colors" 
-            />
-            <input 
-              type="text" 
-              placeholder="Address" 
-              value={address}
-              onChange={e => setAddress(e.target.value)}
-              required 
-              className="w-full md:col-span-2 bg-[#f9f9f9] border border-gray-300 py-3 px-4 font-inter text-sm rounded focus:outline-none focus:border-black transition-colors" 
-            />
-            <input 
-              type="text" 
-              placeholder="City" 
-              value={city}
-              onChange={e => setCity(e.target.value)}
-              required 
-              className="w-full bg-[#f9f9f9] border border-gray-300 py-3 px-4 font-inter text-sm rounded focus:outline-none focus:border-black transition-colors" 
-            />
-            <input 
-              type="text" 
-              placeholder="Postal Code" 
-              value={postalCode}
-              onChange={e => setPostalCode(e.target.value)}
-              required 
-              className="w-full bg-[#f9f9f9] border border-gray-300 py-3 px-4 font-inter text-sm rounded focus:outline-none focus:border-black transition-colors" 
-            />
+          <div className="flex items-center justify-between mb-6 border-b border-gray-200 pb-2">
+            <h2 className="font-poppins text-xl font-medium text-purple-900 flex items-center gap-2">
+              <span className="w-6 h-6 rounded-full bg-purple-900 text-white flex items-center justify-center text-sm font-bold">2</span>
+              Customer Details
+            </h2>
           </div>
+          
+          <div className="flex gap-4 mb-6">
+            <button type="button" className="bg-purple-900 text-white font-inter text-sm px-6 py-2 rounded">Login</button>
+            <button type="button" className="bg-gray-200 text-gray-700 font-inter text-sm px-6 py-2 rounded">Continue as Guest</button>
+          </div>
+          <p className="font-inter text-sm text-gray-600 mb-6">Login to Earn / Redeem myAbans loyalty points <span className="text-blue-500 cursor-pointer hover:underline">(More Info)</span></p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+            <div>
+              <label className="block font-inter text-sm text-gray-700 mb-1">First Name <span className="text-red-500">*</span></label>
+              <input 
+                type="text" 
+                value={firstName}
+                onChange={e => setFirstName(e.target.value)}
+                required 
+                className="w-full bg-white border border-gray-300 py-2.5 px-3 font-inter text-sm rounded focus:outline-none focus:border-purple-600 transition-colors" 
+              />
+            </div>
+            <div>
+              <label className="block font-inter text-sm text-gray-700 mb-1">Last Name <span className="text-red-500">*</span></label>
+              <input 
+                type="text" 
+                value={lastName}
+                onChange={e => setLastName(e.target.value)}
+                required 
+                className="w-full bg-white border border-gray-300 py-2.5 px-3 font-inter text-sm rounded focus:outline-none focus:border-purple-600 transition-colors" 
+              />
+            </div>
+            <div className="md:col-span-2">
+              <label className="block font-inter text-sm text-gray-700 mb-1">Email Address <span className="text-red-500">*</span></label>
+              <input 
+                type="email" 
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required 
+                className="w-full bg-white border border-gray-300 py-2.5 px-3 font-inter text-sm rounded focus:outline-none focus:border-purple-600 transition-colors" 
+              />
+            </div>
+            <div className="md:col-span-2">
+              <label className="block font-inter text-sm text-gray-700 mb-1">Address <span className="text-red-500">*</span></label>
+              <input 
+                type="text" 
+                value={address}
+                onChange={e => setAddress(e.target.value)}
+                required 
+                className="w-full bg-white border border-gray-300 py-2.5 px-3 font-inter text-sm rounded focus:outline-none focus:border-purple-600 transition-colors" 
+              />
+            </div>
+            <div>
+              <label className="block font-inter text-sm text-gray-700 mb-1">Country <span className="text-red-500">*</span></label>
+              <select 
+                value={country}
+                onChange={e => setCountry(e.target.value)}
+                required
+                className="w-full bg-white border border-gray-300 py-2.5 px-3 font-inter text-sm rounded focus:outline-none focus:border-purple-600 transition-colors"
+              >
+                <option value="Sri Lanka">Sri Lanka</option>
+              </select>
+            </div>
+            <div>
+              <label className="block font-inter text-sm text-gray-700 mb-1">State/Province <span className="text-red-500">*</span></label>
+              <select 
+                value={stateProvince}
+                onChange={e => setStateProvince(e.target.value)}
+                required
+                className="w-full bg-white border border-gray-300 py-2.5 px-3 font-inter text-sm rounded focus:outline-none focus:border-purple-600 transition-colors"
+              >
+                <option value="">Select Province</option>
+                <option value="Western">Western</option>
+                <option value="Central">Central</option>
+                <option value="Southern">Southern</option>
+                <option value="Northern">Northern</option>
+                <option value="Eastern">Eastern</option>
+                <option value="North Western">North Western</option>
+                <option value="North Central">North Central</option>
+                <option value="Uva">Uva</option>
+                <option value="Sabaragamuwa">Sabaragamuwa</option>
+              </select>
+            </div>
+            <div>
+              <label className="block font-inter text-sm text-gray-700 mb-1">City <span className="text-red-500">*</span></label>
+              <select 
+                value={city}
+                onChange={e => setCity(e.target.value)}
+                required
+                className="w-full bg-white border border-gray-300 py-2.5 px-3 font-inter text-sm rounded focus:outline-none focus:border-purple-600 transition-colors"
+              >
+                <option value="">Select City</option>
+                <option value="Colombo">Colombo</option>
+                <option value="Kandy">Kandy</option>
+                <option value="Galle">Galle</option>
+                <option value="Negombo">Negombo</option>
+              </select>
+            </div>
+            <div className="hidden md:block"></div>
+            <div>
+              <label className="block font-inter text-sm text-gray-700 mb-1">Phone Number <span className="text-red-500">*</span> <span className="text-gray-400 text-xs">(Ex:077XXXXXXX)</span></label>
+              <input 
+                type="tel" 
+                value={phoneNumber}
+                onChange={e => setPhoneNumber(e.target.value)}
+                required 
+                className="w-full bg-white border border-gray-300 py-2.5 px-3 font-inter text-sm rounded focus:outline-none focus:border-purple-600 transition-colors" 
+              />
+            </div>
+            <div>
+              <label className="block font-inter text-sm text-gray-700 mb-1">Secondary Phone Number</label>
+              <input 
+                type="tel" 
+                value={secondaryPhoneNumber}
+                onChange={e => setSecondaryPhoneNumber(e.target.value)}
+                className="w-full bg-white border border-gray-300 py-2.5 px-3 font-inter text-sm rounded focus:outline-none focus:border-purple-600 transition-colors" 
+              />
+            </div>
+          </div>
+          
+          <div className="mt-6 flex items-center gap-2">
+            <input 
+              type="checkbox" 
+              id="deliverDifferent" 
+              checked={deliverToDifferentAddress}
+              onChange={e => setDeliverToDifferentAddress(e.target.checked)}
+              className="w-4 h-4 rounded border-gray-300 text-purple-800 focus:ring-purple-800"
+            />
+            <label htmlFor="deliverDifferent" className="font-inter text-sm font-semibold text-gray-800">Deliver to a different address</label>
+          </div>
+          <p className="font-inter text-sm text-gray-600 mt-4 mb-2">Kindly use the map to select your precise delivery location.</p>
         </div>
 
         {/* Payment Method */}

@@ -13,22 +13,7 @@ export default async function HotDeals() {
     .order('created_at', { ascending: false })
     .limit(4);
 
-  let products = dbProducts || [];
-  let isUsingFallback = false;
-
-  // 2. If no products are marked as offers yet, fall back to recent products
-  if (products.length === 0) {
-    const { data: fallbackProducts } = await supabase
-      .from('products')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(4);
-    products = fallbackProducts || [];
-    isUsingFallback = true;
-  }
-
-  // Fallback discounts from Abans screenshot: 22%, 25%, 26%, 11%
-  const fallbackDiscounts = [22, 25, 26, 11];
+  const products = dbProducts || [];
 
   return (
     <section className="py-10 md:py-20 px-4 md:px-16 max-w-[1440px] mx-auto animate-fade-in-up">
@@ -55,13 +40,8 @@ export default async function HotDeals() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {products.map((product, index) => {
             // Determine discount percentage and offer end date
-            const discount = isUsingFallback 
-              ? fallbackDiscounts[index % fallbackDiscounts.length] 
-              : (product.discount_percent || 0);
-
-            const endDate = isUsingFallback 
-              ? null 
-              : product.offer_end_date;
+            const discount = product.discount_percent || 0;
+            const endDate = product.offer_end_date;
 
             return (
               <HotDealCard 
@@ -73,7 +53,7 @@ export default async function HotDeals() {
                 imageUrl={product.image_url || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'} 
                 discountPercent={discount}
                 offerEndDate={endDate}
-                originalPrice={isUsingFallback ? null : product.original_price}
+                originalPrice={product.original_price}
               />
             );
           })}

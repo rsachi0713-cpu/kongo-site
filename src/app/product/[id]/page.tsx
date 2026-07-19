@@ -5,6 +5,7 @@ import ImageGallery from './ImageGallery';
 import CartActions from './CartActions';
 import { checkIsWishlisted } from '@/app/(storefront)/wishlist/actions';
 import ProductCountdown from './ProductCountdown';
+import ProductAccordions from './ProductAccordions';
 
 export default async function ProductDetails({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
@@ -41,7 +42,13 @@ export default async function ProductDetails({ params }: { params: Promise<{ id:
     isOffer: !!dbProduct.is_offer,
     discountPercent: dbProduct.discount_percent || 0,
     offerEndDate: dbProduct.offer_end_date,
-    originalPrice: dbProduct.original_price ? Number(dbProduct.original_price) : null
+    originalPrice: dbProduct.original_price ? Number(dbProduct.original_price) : null,
+    modelNumber: dbProduct.model_number,
+    sku: dbProduct.sku,
+    warranty: dbProduct.warranty,
+    deliveryInfo: dbProduct.delivery_info,
+    pickupInfo: dbProduct.pickup_info,
+    shippingReturns: dbProduct.shipping_returns
   };
   // Fetch wishlist status
   const isWishlisted = await checkIsWishlisted(product.id);
@@ -68,16 +75,18 @@ export default async function ProductDetails({ params }: { params: Promise<{ id:
         </ol>
       </nav>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-        <ImageGallery 
-          images={product.images} 
-          productName={product.name} 
-          productId={product.id}
-          initialIsWishlisted={isWishlisted}
-        />
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        <div className="lg:col-span-5">
+          <ImageGallery 
+            images={product.images} 
+            productName={product.name} 
+            productId={product.id}
+            initialIsWishlisted={isWishlisted}
+          />
+        </div>
 
-        {/* Product Info */}
-        <div className="flex flex-col">
+        {/* Product Info - Middle Column */}
+        <div className="flex flex-col lg:col-span-4">
           <span className="font-inter text-sm text-gray-500 uppercase tracking-widest font-semibold mb-2">{product.category}</span>
           <h1 className="font-poppins text-4xl font-semibold text-black mb-4">{product.name}</h1>
           {product.isOffer ? (
@@ -102,36 +111,79 @@ export default async function ProductDetails({ params }: { params: Promise<{ id:
             <span className="font-inter text-2xl text-black font-medium mb-8">LKR {product.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
           )}
           
-          <p className="font-inter text-base text-gray-600 mb-8 leading-relaxed">
-            {product.description}
-          </p>
-          
           {/* Add to Cart Actions */}
             <CartActions productId={product.id} stock={product.stock} user={user} />
-
-          {/* Details Accordion (Static for demo) */}
-          <div className="border-t border-gray-200">
-            <div className="py-6 border-b border-gray-200">
-              <button className="w-full flex items-center justify-between font-inter text-sm uppercase tracking-widest font-semibold text-black">
-                Details
-                <span className="material-symbols-outlined">expand_less</span>
-              </button>
-              <div className="mt-4 text-gray-600 font-inter text-sm">
-                <ul className="list-disc pl-5 space-y-2">
-                  {product.features.map((feature, idx) => (
-                    <li key={idx}>{feature}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <div className="py-6 border-b border-gray-200">
-              <button className="w-full flex items-center justify-between font-inter text-sm uppercase tracking-widest font-semibold text-black">
-                Shipping &amp; Returns
-                <span className="material-symbols-outlined">expand_more</span>
-              </button>
-            </div>
-          </div>
         </div>
+
+        {/* Right Sidebar - Specifications */}
+        <div className="lg:col-span-3 border border-gray-200 rounded-lg p-6 flex flex-col gap-6 sticky top-24">
+          {/* Logo Placeholder (Optional, can be removed if not needed) */}
+          <div className="flex justify-center border-b border-gray-100 pb-4 mb-2">
+            <span className="font-poppins text-xl font-bold tracking-widest uppercase text-black">KONGO</span>
+          </div>
+
+          {(product.modelNumber || product.sku || product.warranty) && (
+            <div className="flex flex-col gap-4 border-b border-gray-100 pb-6">
+              {product.modelNumber && (
+                <div className="flex items-start gap-3">
+                  <span className="material-symbols-outlined text-gray-400">qr_code_scanner</span>
+                  <div className="flex flex-col">
+                    <span className="font-inter text-xs text-gray-500 uppercase tracking-widest">Model Number</span>
+                    <span className="font-inter text-sm font-semibold text-black">{product.modelNumber}</span>
+                  </div>
+                </div>
+              )}
+              {product.sku && (
+                <div className="flex items-start gap-3">
+                  <span className="material-symbols-outlined text-gray-400">inventory_2</span>
+                  <div className="flex flex-col">
+                    <span className="font-inter text-xs text-gray-500 uppercase tracking-widest">SKU</span>
+                    <span className="font-inter text-sm font-semibold text-black">{product.sku}</span>
+                  </div>
+                </div>
+              )}
+              {product.warranty && (
+                <div className="flex items-start gap-3">
+                  <span className="material-symbols-outlined text-gray-400">verified_user</span>
+                  <div className="flex flex-col">
+                    <span className="font-inter text-xs text-gray-500 uppercase tracking-widest">Warranty</span>
+                    <span className="font-inter text-sm font-semibold text-black">{product.warranty}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {(product.deliveryInfo || product.pickupInfo) && (
+            <div className="flex flex-col gap-4 pb-2">
+              {product.deliveryInfo && (
+                <div className="flex items-start gap-3">
+                  <span className="material-symbols-outlined text-gray-400">local_shipping</span>
+                  <div className="flex flex-col">
+                    <span className="font-inter text-xs text-gray-500 uppercase tracking-widest">Standard Delivery</span>
+                    <span className="font-inter text-sm font-semibold text-black">{product.deliveryInfo}</span>
+                    <span className="font-inter text-xs text-green-600 font-semibold mt-1">Available</span>
+                  </div>
+                </div>
+              )}
+              {product.pickupInfo && (
+                <div className="flex items-start gap-3">
+                  <span className="material-symbols-outlined text-gray-400">storefront</span>
+                  <div className="flex flex-col">
+                    <span className="font-inter text-xs text-gray-500 uppercase tracking-widest">Pickup In-Store</span>
+                    <span className="font-inter text-sm font-semibold text-black">{product.pickupInfo}</span>
+                    <span className="font-inter text-xs text-green-600 font-semibold mt-1">Available</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Full Width Details Accordion */}
+      <div className="mt-16 max-w-4xl mx-auto">
+        <ProductAccordions description={product.description} shippingReturns={product.shippingReturns} />
       </div>
     </div>
   );

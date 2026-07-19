@@ -26,6 +26,14 @@ export async function addProduct(formData: FormData) {
   const description = formData.get('description') as string
   const imageFiles = formData.getAll('imageFiles') as File[]
 
+  // New specs
+  const model_number = formData.get('model_number') as string
+  const sku = formData.get('sku') as string
+  const warranty = formData.get('warranty') as string
+  const delivery_info = formData.get('delivery_info') as string
+  const pickup_info = formData.get('pickup_info') as string
+  const shipping_returns = formData.get('shipping_returns') as string
+
   // Parse numbers
   const mainPrice = parseFloat(priceStr)
   const stock = parseInt(stockStr, 10)
@@ -83,7 +91,13 @@ export async function addProduct(formData: FormData) {
     is_offer: isOffer,
     discount_percent: discountPercent,
     offer_end_date: finalEndDate,
-    original_price: originalPrice
+    original_price: originalPrice,
+    model_number: model_number || null,
+    sku: sku || null,
+    warranty: warranty || null,
+    delivery_info: delivery_info || null,
+    pickup_info: pickup_info || null,
+    shipping_returns: shipping_returns || null
   })
 
   if (error) {
@@ -157,6 +171,14 @@ export async function editProduct(formData: FormData) {
   const imageUrl = formData.get('imageUrl') as string
   const description = formData.get('description') as string
   const imageFiles = formData.getAll('imageFiles') as File[]
+  
+  // New specs
+  const model_number = formData.get('model_number') as string
+  const sku = formData.get('sku') as string
+  const warranty = formData.get('warranty') as string
+  const delivery_info = formData.get('delivery_info') as string
+  const pickup_info = formData.get('pickup_info') as string
+  const shipping_returns = formData.get('shipping_returns') as string
   
   // Interactive list of remaining images from the Client ImagePreview component
   const remainingImagesJson = formData.get('remainingImages') as string
@@ -250,7 +272,13 @@ export async function editProduct(formData: FormData) {
       is_offer: isOffer,
       discount_percent: discountPercent,
       offer_end_date: finalEndDate,
-      original_price: originalPrice
+      original_price: originalPrice,
+      model_number: model_number || null,
+      sku: sku || null,
+      warranty: warranty || null,
+      delivery_info: delivery_info || null,
+      pickup_info: pickup_info || null,
+      shipping_returns: shipping_returns || null
     })
     .eq('id', id)
 

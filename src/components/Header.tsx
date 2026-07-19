@@ -201,8 +201,8 @@ export default function Header({ user }: { user?: any }) {
         </div>
       )}
 
-      {/* ========== ROW 2: Purple Nav Bar ========== */}
-      <div className="bg-[#4a148c] text-white border-t border-purple-950">
+      {/* ========== ROW 2: Purple Nav Bar (Desktop only) ========== */}
+      <div className="hidden md:block bg-[#4a148c] text-white border-t border-purple-950">
         <div className="max-w-[1440px] mx-auto px-4 md:px-16 flex items-center justify-between h-11 md:h-12">
 
           {/* All Categories - desktop */}

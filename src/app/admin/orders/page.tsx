@@ -20,6 +20,14 @@ export default async function AdminOrders() {
   const orders = dbOrders || [];
   const profiles = dbProfiles || [];
   const error = ordersError || profilesError;
+  
+  // 3. Mark unread orders as read
+  if (!error) {
+    await supabase
+      .from('orders')
+      .update({ is_read: true })
+      .eq('is_read', false);
+  }
 
   if (error) {
     console.error("Database query error in AdminOrders:", error);

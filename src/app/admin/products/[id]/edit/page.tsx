@@ -143,6 +143,43 @@ export default async function EditProductPage({
           </div>
         </div>
 
+        {/* Product Specifications */}
+        <div>
+          <h2 className="font-poppins text-lg font-semibold text-black mb-4 pb-2 border-b border-gray-100">Product Specifications</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="model_number" className="block font-inter text-sm font-medium text-black mb-2">Model Number</label>
+              <input type="text" id="model_number" name="model_number" defaultValue={product.model_number || ''} placeholder="e.g. 32S25NP" className="w-full bg-[#f9f9f9] border border-gray-300 py-2.5 px-4 font-inter text-sm text-black rounded focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors" />
+            </div>
+            <div>
+              <label htmlFor="sku" className="block font-inter text-sm font-medium text-black mb-2">SKU</label>
+              <input type="text" id="sku" name="sku" defaultValue={product.sku || ''} placeholder="e.g. THTV32S25NP" className="w-full bg-[#f9f9f9] border border-gray-300 py-2.5 px-4 font-inter text-sm text-black rounded focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors" />
+            </div>
+            <div>
+              <label htmlFor="warranty" className="block font-inter text-sm font-medium text-black mb-2">Warranty Info</label>
+              <input type="text" id="warranty" name="warranty" defaultValue={product.warranty || ''} placeholder="e.g. 24 Month(s)" className="w-full bg-[#f9f9f9] border border-gray-300 py-2.5 px-4 font-inter text-sm text-black rounded focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors" />
+            </div>
+            <div>
+              <label htmlFor="delivery_info" className="block font-inter text-sm font-medium text-black mb-2">Standard Delivery</label>
+              <input type="text" id="delivery_info" name="delivery_info" defaultValue={product.delivery_info || ''} placeholder="e.g. 3 - 5 Working Days" className="w-full bg-[#f9f9f9] border border-gray-300 py-2.5 px-4 font-inter text-sm text-black rounded focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors" />
+            </div>
+            <div>
+              <label htmlFor="pickup_info" className="block font-inter text-sm font-medium text-black mb-2">Pickup In-Store</label>
+              <input type="text" id="pickup_info" name="pickup_info" defaultValue={product.pickup_info || ''} placeholder="e.g. Today Available" className="w-full bg-[#f9f9f9] border border-gray-300 py-2.5 px-4 font-inter text-sm text-black rounded focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors" />
+            </div>
+            <div className="md:col-span-2">
+              <label htmlFor="shipping_returns" className="block font-inter text-sm font-medium text-black mb-2">Shipping & Returns Info (Accordion Content)</label>
+              <textarea 
+                id="shipping_returns" 
+                name="shipping_returns" 
+                rows={4}
+                defaultValue={product.shipping_returns || `Standard Delivery: 3-5 working days depending on your location.\nStore Pickup: Usually available same day if ordered before 3PM.\nReturns: We accept returns within 14 days of delivery for unused items in original packaging.`}
+                className="w-full bg-[#f9f9f9] border border-gray-300 py-2.5 px-4 font-inter text-sm text-black rounded focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-colors" 
+              />
+            </div>
+          </div>
+        </div>
+
         {/* Pricing & Inventory */}
         <div>
           <h2 className="font-poppins text-lg font-semibold text-black mb-4 pb-2 border-b border-gray-100">Pricing & Inventory</h2>
