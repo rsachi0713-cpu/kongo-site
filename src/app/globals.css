@@ -14,7 +14,7 @@
   --font-inter: var(--font-inter), sans-serif;
   --font-poppins: var(--font-poppins), sans-serif;
 
-  --spacing-container-max: 1440px;
+  --spacing-container-max: 100%;
   --spacing-section-gap: 120px;
 }
 
