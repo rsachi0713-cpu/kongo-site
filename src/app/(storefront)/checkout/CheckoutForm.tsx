@@ -394,18 +394,6 @@ Please confirm my order. Thank you!`;
                   <span className="material-symbols-outlined text-green-600 text-2xl">chat</span>
                   <p>Your order details will be prepared. Clicking 'Place Order' will open WhatsApp to send your order directly to our sales agent.</p>
                 </div>
-                <div className="border-t border-green-200/50 pt-3">
-                  <label htmlFor="whatsappNum" className="block font-inter text-xs font-semibold text-green-800 mb-1.5">WhatsApp Mobile Number</label>
-                  <input 
-                    type="tel" 
-                    id="whatsappNum"
-                    placeholder="e.g. 0771234567" 
-                    value={whatsappNum}
-                    onChange={e => setWhatsappNum(e.target.value)}
-                    required
-                    className="w-full bg-white border border-green-300 py-2.5 px-4 font-inter text-sm rounded text-black focus:outline-none focus:border-green-600 transition-colors" 
-                  />
-                </div>
               </div>
             )}
             
@@ -413,19 +401,7 @@ Please confirm my order. Thank you!`;
               <div className="p-5 border border-gray-200 rounded-sm bg-gray-50 text-gray-800 font-inter text-sm space-y-4 animate-fade-in-up">
                 <div className="flex items-center gap-3">
                   <span className="material-symbols-outlined text-gray-500 text-2xl">info</span>
-                  <p>We will contact you via this number to confirm your order details and arrange delivery.</p>
-                </div>
-                <div className="border-t border-gray-200 pt-3">
-                  <label htmlFor="contactNumber" className="block font-inter text-xs font-semibold text-gray-700 mb-1.5">Contact Number</label>
-                  <input 
-                    type="tel" 
-                    id="contactNumber"
-                    placeholder="e.g. 0771234567" 
-                    value={contactNumber}
-                    onChange={e => setContactNumber(e.target.value)}
-                    required
-                    className="w-full bg-white border border-gray-300 py-2.5 px-4 font-inter text-sm rounded text-black focus:outline-none focus:border-black transition-colors" 
-                  />
+                  <p>We will contact you via the phone number you provided above to confirm your order details and arrange delivery.</p>
                 </div>
               </div>
             )}
