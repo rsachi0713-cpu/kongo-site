@@ -22,16 +22,13 @@ export default function ProductCard({ id, category, name, price, imageUrl, origi
           <span className="material-symbols-outlined text-gray-800 bg-white/80 p-1.5 md:p-2 rounded-full backdrop-blur-sm hover:text-red-600 transition-colors text-[18px] md:text-[22px]">favorite</span>
         </div>
       </div>
-      <div className="flex flex-col gap-0.5 md:gap-1">
-        <span className="font-inter text-[9px] md:text-xs text-gray-500 uppercase tracking-widest font-semibold">{category}</span>
-        <div className="flex justify-between items-start gap-1 md:gap-4">
-          <h3 className="font-inter text-xs md:text-base font-bold text-black min-w-0 flex-1 leading-tight line-clamp-2">{name}</h3>
-          <div className="flex flex-col items-end whitespace-nowrap">
-            {originalPrice && Number(originalPrice) > price && (
-              <span className="font-inter text-[9px] md:text-[11px] text-gray-400 line-through">LKR {Number(originalPrice).toLocaleString()}</span>
-            )}
-            <span className="font-inter text-xs md:text-base font-bold text-black">LKR {price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
-          </div>
+      <div className="flex flex-col gap-1 items-center text-center mt-2 px-1 mb-2">
+        <h3 className="font-inter text-xs md:text-sm font-semibold text-gray-800 truncate w-full" title={name}>{name}</h3>
+        <div className="flex items-center justify-center gap-2 mt-0.5 flex-wrap">
+          {originalPrice && Number(originalPrice) > price && (
+            <span className="font-inter text-[10px] md:text-[11px] text-gray-400 line-through">Rs. {Number(originalPrice).toLocaleString()}</span>
+          )}
+          <span className="font-inter text-sm md:text-[15px] font-bold text-red-600">Rs. {price.toLocaleString(undefined, { minimumFractionDigits: 0 })}</span>
         </div>
       </div>
     </Link>

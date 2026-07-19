@@ -139,31 +139,24 @@ export default function HotDealCard({
       </div>
 
       {/* Product Details area */}
-      <div className="p-5 flex flex-col gap-2 bg-white">
-        <span className="font-inter text-[10px] text-purple-700 uppercase tracking-widest font-extrabold">{category}</span>
-        
-        <h3 className="font-inter text-sm font-bold text-black min-w-0 truncate group-hover:text-purple-700 transition-colors" title={name}>
+      <div className="p-4 flex flex-col items-center text-center gap-1 bg-white">
+        <h3 className="font-inter text-sm font-bold text-gray-800 truncate w-full group-hover:text-purple-700 transition-colors" title={name}>
           {name}
         </h3>
 
         {/* Pricing Layout */}
-        <div className="mt-2 space-y-1">
-          {/* Crossed out Market price */}
-          <div className="flex items-center gap-2">
+        <div className="mt-1 flex flex-col items-center gap-1">
+          <div className="flex items-center justify-center gap-2 flex-wrap">
             <span className="font-inter text-[11px] text-gray-400 line-through">
               Rs. {Math.round(marketPrice).toLocaleString()}
             </span>
-          </div>
-
-          {/* Sale Price and SAVE badge */}
-          <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-gray-100/80">
-            <span className="font-inter text-base font-extrabold text-black">
+            <span className="font-inter text-base font-extrabold text-red-600">
               Rs. {price.toLocaleString()}
             </span>
-            <span className="bg-green-100 text-green-800 font-inter text-[9px] font-black uppercase px-2 py-0.5 rounded">
-              SAVE Rs. {Math.round(savedAmount).toLocaleString()}
-            </span>
           </div>
+          <span className="bg-green-100 text-green-800 font-inter text-[9px] font-black uppercase px-2 py-0.5 rounded inline-block mt-1">
+            SAVE Rs. {Math.round(savedAmount).toLocaleString()}
+          </span>
         </div>
       </div>
     </Link>

@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileBottomNav from "@/components/MobileBottomNav";
+import WhatsAppChat from "@/components/WhatsAppChat";
 
 // We define a loose user type to avoid importing from Supabase client everywhere
 type User = any;
@@ -24,6 +25,7 @@ export default function ClientLayoutWrapper({ children, user }: { children: Reac
       </main>
       <Footer />
       <MobileBottomNav user={user} />
+      <WhatsAppChat />
     </>
   );
 }

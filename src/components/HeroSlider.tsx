@@ -43,7 +43,7 @@ export default function HeroSlider({ banners }: { banners: string[] }) {
         </div>
 
         {/* Desktop: fixed aspect ratio with cover */}
-        <div className="hidden md:block relative w-full" style={{ aspectRatio: '16/5' }}>
+        <div className="hidden md:block relative w-full" style={{ aspectRatio: '1920/450' }}>
           {banners.map((banner, index) => (
             <img
               key={banner + index}

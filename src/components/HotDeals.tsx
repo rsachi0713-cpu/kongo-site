@@ -37,14 +37,14 @@ export default async function HotDeals() {
           <p className="font-inter text-sm text-gray-500">No active promotional deals available at the moment.</p>
         </div>
       ) : (
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 md:grid md:grid-cols-3 lg:grid-cols-6 md:gap-6 md:pb-0 scrollbar-hide">
+        <div className="grid grid-cols-4 gap-2 md:gap-6 lg:grid-cols-6 pb-6 md:pb-0">
           {products.map((product, index) => {
             // Determine discount percentage and offer end date
             const discount = product.discount_percent || 0;
             const endDate = product.offer_end_date;
 
             return (
-              <div key={product.id} className="w-[45vw] sm:w-[30vw] md:w-auto md:max-w-[260px] shrink-0 snap-start">
+              <div key={product.id} className="w-full md:max-w-[260px] mx-auto">
                 <HotDealCard 
                   id={product.id}
                   category={product.category}
