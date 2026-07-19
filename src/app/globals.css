@@ -49,6 +49,11 @@
     background: #c6c6c7; 
   }
 }
+@layer components {
+  .site-container {
+    @apply w-full max-w-[var(--spacing-container-max)] mx-auto px-4 md:px-8 lg:px-16;
+  }
+}
 
 @layer utilities {
   .nav-link-hover {

@@ -50,7 +50,7 @@ export default function Header({ user }: { user?: any }) {
     <header className="fixed top-0 w-full z-50 bg-white border-b border-gray-200 shadow-sm font-inter">
 
       {/* ========== ROW 1: Brand + Search + Actions ========== */}
-      <div className="max-w-[1440px] mx-auto px-4 md:px-16 flex items-center justify-between h-16 md:h-20 gap-3">
+      <div className="site-container flex items-center justify-between h-16 md:h-20 gap-3">
         
         {/* Mobile: Hamburger */}
         <button
@@ -203,7 +203,7 @@ export default function Header({ user }: { user?: any }) {
 
       {/* ========== ROW 2: Purple Nav Bar (Desktop only) ========== */}
       <div className="hidden md:block bg-[#4a148c] text-white border-t border-purple-950">
-        <div className="max-w-[1440px] mx-auto px-4 md:px-16 flex items-center justify-between h-11 md:h-12">
+        <div className="site-container flex items-center justify-between h-11 md:h-12">
 
           {/* All Categories - desktop */}
           <div className="relative group h-full hidden md:block">

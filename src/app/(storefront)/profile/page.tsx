@@ -34,7 +34,7 @@ export default async function ProfilePage() {
   });
 
   return (
-    <div className="max-w-[1440px] mx-auto px-5 md:px-16 py-12 animate-fade-in-up">
+    <div className="site-container py-12 animate-fade-in-up">
       {/* Breadcrumbs */}
       <nav aria-label="Breadcrumb" className="flex text-gray-500 font-inter text-xs uppercase tracking-widest mb-8 font-semibold">
         <ol className="inline-flex items-center space-x-2">

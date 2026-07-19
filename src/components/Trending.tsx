@@ -15,7 +15,7 @@ export default async function Trending() {
   const products = dbProducts || [];
 
   return (
-    <section className="py-8 md:py-20 px-3 md:px-16 max-w-[1440px] mx-auto animate-fade-in-up">
+    <section className="py-8 md:py-20 px-3 md:px-16 site-container animate-fade-in-up">
       <div className="flex items-end justify-between mb-12 border-b border-gray-100 pb-5">
         <div>
           <span className="text-purple-700 font-inter text-xs uppercase tracking-widest font-black block mb-2">Customer Favorites</span>

@@ -16,7 +16,7 @@ export default async function Wishlist() {
   const wishlistProducts = await getWishlistItems();
 
   return (
-    <div className="max-w-[1440px] mx-auto px-5 md:px-16 py-12 animate-fade-in-up">
+    <div className="site-container py-12 animate-fade-in-up">
       <div className="mb-12 border-b border-gray-200 pb-6 flex justify-between items-end">
         <div>
           <h1 className="font-poppins text-3xl md:text-4xl font-semibold text-black tracking-tight">Your Wishlist</h1>

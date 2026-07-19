@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="max-w-[1440px] mx-auto px-5 md:px-16 py-16 animate-fade-in-up">
+    <div className="site-container py-16 animate-fade-in-up">
       {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="flex text-gray-500 font-inter text-xs uppercase tracking-widest mb-6 font-semibold">
         <ol className="inline-flex items-center space-x-2">

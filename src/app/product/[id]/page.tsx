@@ -20,7 +20,7 @@ export default async function ProductDetails({ params }: { params: Promise<{ id:
 
   if (error || !dbProduct) {
     return (
-      <div className="max-w-[1440px] mx-auto px-5 md:px-16 py-32 text-center">
+      <div className="site-container py-32 text-center">
         <h1 className="font-poppins text-3xl font-bold mb-4">Product Not Found</h1>
         <p className="font-inter text-gray-500 mb-8">The product you're looking for doesn't exist or has been removed.</p>
         <Link href="/shop" className="bg-black text-white px-8 py-3 uppercase tracking-widest text-xs font-semibold hover:opacity-90">Back to Shop</Link>
@@ -53,7 +53,7 @@ export default async function ProductDetails({ params }: { params: Promise<{ id:
   // Fetch wishlist status
   const isWishlisted = await checkIsWishlisted(product.id);
   return (
-    <div className="max-w-[1440px] mx-auto px-5 md:px-16 py-12 animate-fade-in-up">
+    <div className="site-container py-12 animate-fade-in-up">
       {/* Breadcrumbs */}
       <nav aria-label="Breadcrumb" className="flex text-gray-500 font-inter text-xs uppercase tracking-widest mb-12 font-semibold">
         <ol className="inline-flex items-center space-x-2">

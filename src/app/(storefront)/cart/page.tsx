@@ -16,7 +16,7 @@ export default async function Cart() {
   const cartItems = await getCartItems();
 
   return (
-    <div className="max-w-[1440px] mx-auto px-5 md:px-16 py-12 animate-fade-in-up">
+    <div className="site-container py-12 animate-fade-in-up">
       <h1 className="font-poppins text-3xl md:text-4xl font-semibold text-black mb-8 tracking-tight">Shopping Cart</h1>
       
       <div className="flex flex-col lg:flex-row gap-12">

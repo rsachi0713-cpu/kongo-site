@@ -47,7 +47,7 @@ const CATEGORIES_DATA = [
 
 export default function BrowseCategories() {
   return (
-    <section className="py-10 md:py-20 px-4 md:px-16 max-w-[1440px] mx-auto animate-fade-in-up border-t border-gray-100">
+    <section className="py-10 md:py-20 px-4 md:px-16 site-container animate-fade-in-up border-t border-gray-100">
       {/* Categories Header */}
       <div className="text-center mb-8 md:mb-16">
         <span className="text-purple-700 font-inter text-xs uppercase tracking-widest font-black block mb-2">Shop By department</span>

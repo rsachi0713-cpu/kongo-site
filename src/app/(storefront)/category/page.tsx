@@ -63,7 +63,7 @@ export default async function CategoryList() {
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto px-5 md:px-16 py-12 animate-fade-in-up">
+    <div className="site-container py-12 animate-fade-in-up">
       {/* Header & Breadcrumbs */}
       <div className="mb-12">
         <nav aria-label="Breadcrumb" className="flex text-gray-500 font-inter text-xs uppercase tracking-widest mb-4 font-semibold">

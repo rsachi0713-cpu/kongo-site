@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function Categories() {
   return (
-    <section className="py-[120px] px-5 md:px-16 max-w-[1440px] mx-auto bg-white animate-fade-in-up">
+    <section className="py-[120px] px-5 md:px-16 site-container bg-white animate-fade-in-up">
       <div className="text-center mb-16">
         <h2 className="font-poppins text-3xl md:text-4xl font-semibold text-black mb-2 tracking-tight">Curated Categories</h2>
         <div className="h-[1px] w-12 bg-black mx-auto mt-6"></div>

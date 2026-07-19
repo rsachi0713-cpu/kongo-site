@@ -80,7 +80,7 @@ export default async function Shop({
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto px-3 md:px-16 py-6 md:py-12 animate-fade-in-up">
+    <div className="site-container py-6 md:py-12 animate-fade-in-up">
       {/* Header & Breadcrumbs */}
       <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
