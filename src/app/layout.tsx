@@ -17,14 +17,6 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "KONGO - Premium Marketplace",
   description: "Luxury e-commerce marketplace for premium products.",
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/kongo_logo.png", type: "image/png" },
-    ],
-    shortcut: "/favicon.ico",
-    apple: "/kongo_logo.png",
-  },
 };
 
 
