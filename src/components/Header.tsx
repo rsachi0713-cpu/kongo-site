@@ -233,6 +233,9 @@ export default function Header({ user }: { user?: any }) {
               <Link href="/shop?category=Furniture" className="flex items-center gap-2.5 px-4 py-2.5 text-xs uppercase hover:bg-gray-100 hover:text-purple-800 transition-colors">
                 <span className="material-symbols-outlined text-[18px] text-gray-500">chair</span>Furniture
               </Link>
+              <Link href="/shop?category=Kitchen%20Appliances" className="flex items-center gap-2.5 px-4 py-2.5 text-xs uppercase hover:bg-gray-100 hover:text-purple-800 transition-colors">
+                <span className="material-symbols-outlined text-[18px] text-gray-500">blender</span>Kitchen Appliances
+              </Link>
             </div>
           </div>
 
@@ -320,6 +323,7 @@ export default function Header({ user }: { user?: any }) {
                 { name: 'Home & Living', icon: 'home', slug: 'Home%20%26%20Living' },
                 { name: 'Accessories', icon: 'shopping_bag', slug: 'Accessories' },
                 { name: 'Watches', icon: 'watch', slug: 'Watches' },
+                { name: 'Kitchen Appliances', icon: 'blender', slug: 'Kitchen%20Appliances' },
               ].map(cat => (
                 <Link
                   key={cat.slug}

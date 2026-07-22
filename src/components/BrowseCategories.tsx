@@ -42,6 +42,12 @@ const CATEGORIES_DATA = [
     slug: 'Furniture',
     imageUrl: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=400&auto=format&fit=crop&q=80',
     icon: 'chair'
+  },
+  {
+    name: 'Kitchen Appliances',
+    slug: 'Kitchen%20Appliances',
+    imageUrl: 'https://images.unsplash.com/photo-1556910103-1c02745a872f?w=400&auto=format&fit=crop&q=80',
+    icon: 'blender'
   }
 ];
 
@@ -55,8 +61,8 @@ export default function BrowseCategories() {
         <p className="font-inter text-sm text-gray-500 mt-2 max-w-md mx-auto">Browse through our wide collection of premium items curated just for you.</p>
       </div>
 
-      {/* Grid container with 7 columns */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-6">
+      {/* Grid container with 8 columns */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-6">
         {CATEGORIES_DATA.map((cat) => (
           <Link 
             key={cat.name} 

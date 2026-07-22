@@ -134,7 +134,7 @@ export default async function Shop({
                     <span>All</span>
                   </Link>
                 </li>
-                {['Accessories', 'Beauty', 'Electronics', 'Home & Living', 'Fashion', 'Watches', 'Furniture'].map(cat => (
+                {['Accessories', 'Beauty', 'Electronics', 'Home & Living', 'Fashion', 'Watches', 'Furniture', 'Kitchen Appliances'].map(cat => (
                   <li key={cat}>
                     <Link 
                       href={getCategoryUrl(cat)} 

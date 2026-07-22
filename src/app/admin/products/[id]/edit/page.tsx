@@ -83,6 +83,7 @@ export default async function EditProductPage({
                   <option value="Accessories">Accessories</option>
                   <option value="Watches">Watches</option>
                   <option value="Furniture">Furniture</option>
+                  <option value="Kitchen Appliances">Kitchen Appliances</option>
                 </select>
               </div>
               <div>
