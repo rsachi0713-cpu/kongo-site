@@ -143,3 +143,22 @@ export async function verifySignupOTP(email: string, token: string) {
   revalidatePath('/', 'layout');
   return { success: true };
 }
+
+export async function signInWithProvider(formData: FormData) {
+  const supabase = await createClient()
+  const provider = formData.get('provider') as 'google' | 'facebook'
+  const next = formData.get('next') as string || '/'
+  
+  const origin = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider,
+    options: {
+      redirectTo: `${origin}/auth/callback?next=${encodeURIComponent(next)}`,
+    },
+  })
+  
+  if (data.url) {
+    redirect(data.url)
+  }
+}

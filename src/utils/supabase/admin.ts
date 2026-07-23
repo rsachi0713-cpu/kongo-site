@@ -1,10 +1,8 @@
-import { createServerClient } from '@supabase/ssr'
+import { createClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import { getCloudflareContext } from '@opennextjs/cloudflare'
 
 export async function createAdminClient() {
-  const cookieStore = await cookies()
-
   let env: any = {}
   try {
     env = getCloudflareContext()?.env || {}
@@ -18,22 +16,16 @@ export async function createAdminClient() {
     console.error("SUPABASE URL OR KEY IS MISSING IN ADMIN CLIENT!")
   }
 
-  return createServerClient(
+  // Use the standard client without cookie handling so it strictly uses the service role key
+  // and ignores any user session cookies which would otherwise downgrade the request permissions.
+  return createClient(
     supabaseUrl!,
     supabaseKey!,
     {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll()
-        },
-        setAll(cookiesToSet) {
-          try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            )
-          } catch {}
-        },
-      },
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      }
     }
   )
 }
